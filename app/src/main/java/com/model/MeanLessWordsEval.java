@@ -1,12 +1,15 @@
 package com.model;
 
-import java.nio.file.Path;
+class MeanLessWordsEval extends Evaluator {
+    private double[] evalValue;
 
-class MeanLessWordsEval extends Evaluator{
-    private double[] EvalValue;
-    void calculation(/*todo audioData*/){
+    @Override
+    void calculation(/* TODO audioData*/) {
+
     }
-    double returnResult(){
+
+    @Override
+    double returnResult() {
         return 0.0;
     }
 }

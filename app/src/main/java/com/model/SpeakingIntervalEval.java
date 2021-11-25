@@ -1,11 +1,15 @@
 package com.model;
 
-class SpeakingIntervalEval extends Evaluator{
-    private double[] EvalValue;
-    void calculation(/* TODO audioData*/){
+class SpeakingIntervalEval extends Evaluator {
+    private double[] evalValue;
+
+    @Override
+    void calculation(/* TODO audioData*/) {
 
     }
-    double returnResult(){
+
+    @Override
+    double returnResult() {
         return 0.0;
     }
 }
