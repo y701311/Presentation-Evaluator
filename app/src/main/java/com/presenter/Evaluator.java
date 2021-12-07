@@ -21,7 +21,7 @@ public class Evaluator {
         EvalController evalController = new EvalController();
         Path audioFilePath = fileSelect.getFilePath();
 
-        value = evalController.evalController(audioFilePath, (Context) activity);
+        //value = evalController.evalController(audioFilePath, (Context) activity);
         resultDisplay.display(value);
     }
 
