@@ -13,15 +13,9 @@ class VolumeEval extends Evaluator {
     @Override
     void calculation(double[] audioData) {
         double evalValue;
-        evalValue = getDecibel(Utility.getRms(audioData));
+        evalValue = Utility.getDecibel(Utility.getRms(audioData));
 
         this.evalValue.add(evalValue);
-    }
-
-    // 人間の最小可聴音圧である20[μPa]を基準としたdBを返す
-    double getDecibel(double rms) {
-        final double Base = 0.00002;
-        return 20 * Math.log10(rms / Base);
     }
 
     @Override
