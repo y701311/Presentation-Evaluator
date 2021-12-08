@@ -21,12 +21,21 @@ class VolumeEval extends Evaluator {
     @Override
     double returnResult() {
         double evalValue = 0;
+        double decibelMean = 0;
+        final double bestVolume = 50;
 
         // デシベルの平均値を算出
         for(double value : this.evalValue){
-            evalValue += value;
+            decibelMean += value;
         }
-        evalValue /= this.evalValue.size();
+        decibelMean /= this.evalValue.size();
+
+        // 点数化
+        // 大きすぎるなら点数化しやすいように丸める
+        if(decibelMean >= bestVolume * 2){
+            decibelMean = bestVolume * 2;
+        }
+        evalValue = 100 - Math.abs(bestVolume - decibelMean);
 
         return evalValue;
     }
