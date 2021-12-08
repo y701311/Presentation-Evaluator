@@ -33,7 +33,7 @@ class SpeakingIntervalEval extends Evaluator {
                 silentCount++;
             }
         }
-        silentRate = silentCount / this.evalValue.size();
+        silentRate = (double)silentCount / this.evalValue.size();
 
         if(silentRate < bestSilentRate){
             evalValue = 100 - ((bestSilentRate - silentRate) / bestSilentRate) * 100;
