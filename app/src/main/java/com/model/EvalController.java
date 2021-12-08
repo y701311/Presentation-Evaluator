@@ -43,11 +43,11 @@ public class EvalController {
             // TODO フーリエ変換
 
             // TODO xxx.calculation(data1, data2, ...);
-            accentsEval.calculation();
-            meanLessWordsEval.calculation();
-            speakingIntervalEval.calculation();
-            speakingSpeedEval.calculation();
-            volumeEval.calculation();
+            accentsEval.calculation(this.perUnitAudioData);
+            meanLessWordsEval.calculation(this.perUnitAudioData);
+            speakingIntervalEval.calculation(this.perUnitAudioData);
+            speakingSpeedEval.calculation(this.perUnitAudioData);
+            volumeEval.calculation(this.perUnitAudioData);
         }
 
         evaluationValues.accents = accentsEval.returnResult();
@@ -106,7 +106,7 @@ public class EvalController {
     }
     // bufferSizeで指定されたバイト数のデータを読んでセットする
     private void makePerUnitAudioData(int bufferSize) throws IOException {
-        byte[] buffer = new byte[bufferSize];
+        byte[] buffer = new byte[bufferSize];// TODO 0.5秒分くらいのデータにする
         int readSize;
         int audioDataSize = bufferSize / (this.bitPerSample / 8);
         double[] audioData = new double[audioDataSize];

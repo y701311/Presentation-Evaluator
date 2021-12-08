@@ -1,10 +1,16 @@
 package com.model;
 
+import java.util.ArrayList;
+
 class AccentsEval extends Evaluator {
-    private double[] evalValue;
+    private ArrayList<Double> evalValue;
+
+    AccentsEval() {
+        this.evalValue = new ArrayList<Double>();
+    }
 
     @Override
-    void calculation(/* TODO audioData*/) {
+    void calculation(double[] audioData) {
 
     }
 
