@@ -26,23 +26,26 @@ public class EvalController {
     public com.presenter.EvaluationValues evalController(Path audioFilePath, Context context) throws IOException {
         com.presenter.EvaluationValues evaluationValues = new com.presenter.EvaluationValues();
 
-        // 各評価項目のインスタンス生成
-        AccentsEval accentsEval = new AccentsEval();
-        MeanLessWordsEval meanLessWordsEval = new MeanLessWordsEval();
-        SpeakingIntervalEval speakingIntervalEval = new SpeakingIntervalEval();
-        SpeakingSpeedEval speakingSpeedEval = new SpeakingSpeedEval();
-        VolumeEval volumeEval = new VolumeEval();
-
         setAudioStream(audioFilePath, context);
         preProcess();
 
         int bufferSize;
+        double timePerData;
         if(this.samplingRate == 44100){
             // サンプリングレートが44.1kHzなら0.093秒くらい分のデータ
             bufferSize = 4096 * (bitPerSample / 8);
+            timePerData = 4096 / this.samplingRate;
         }else{
             bufferSize = (int) 0.1 * samplingRate * (bitPerSample / 8);
+            timePerData = 0.1;
         }
+
+        // 各評価項目のインスタンス生成
+        AccentsEval accentsEval = new AccentsEval();
+        MeanLessWordsEval meanLessWordsEval = new MeanLessWordsEval();
+        SpeakingIntervalEval speakingIntervalEval = new SpeakingIntervalEval();
+        SpeakingSpeedEval speakingSpeedEval = new SpeakingSpeedEval(timePerData);
+        VolumeEval volumeEval = new VolumeEval();
 
         while(this.restOfDataSize > 0){
             makePerUnitAudioData(bufferSize);
