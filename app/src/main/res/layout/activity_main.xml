@@ -4,4 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"/>
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="374dp"
+        android:layout_height="243dp"
+        android:hint="@string/button_send"
+        android:text="@string/button_send"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="-12dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="245dp"
+        android:layout_height="189dp"
+        android:hint="@string/edit_message"
+        android:text="@string/edit_message"
+        tools:layout_editor_absoluteX="88dp"
+        tools:layout_editor_absoluteY="359dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

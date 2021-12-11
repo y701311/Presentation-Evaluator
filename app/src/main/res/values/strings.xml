@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Presentation-Evaluator</string>
+    <string name="button_send">Send</string>
+    <string name="button_select">Select File</string>
+    <string name="button_start">Start evaluation</string>
+    <string name="button_help_open">\?</string>
+    <string name="button_help_close">X</string>
+    <string name="text_select">Please select file</string>
+    <string name="select_file">Select File</string>
 </resources>

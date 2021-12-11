@@ -1,5 +1,6 @@
 package com.view;
-public class HelpClose{
+
+public class Help {
     public void listenHelpCloseEvent(){
 
     }
