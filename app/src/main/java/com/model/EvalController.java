@@ -25,7 +25,6 @@ public class EvalController {
     // 渡されたパスのオーディオファイルを評価して、評価値を返す
     public com.presenter.EvaluationValues evalController(Path audioFilePath, Context context) throws IOException {
         com.presenter.EvaluationValues evaluationValues = new com.presenter.EvaluationValues();
-        final int bufferSize = 1024;
 
         // 各評価項目のインスタンス生成
         AccentsEval accentsEval = new AccentsEval();
@@ -36,6 +35,14 @@ public class EvalController {
 
         setAudioStream(audioFilePath, context);
         preProcess();
+
+        int bufferSize;
+        if(this.samplingRate == 44100){
+            // サンプリングレートが44.1kHzなら0.093秒くらい分のデータ
+            bufferSize = 4096 * (bitPerSample / 8);
+        }else{
+            bufferSize = (int) 0.1 * samplingRate * (bitPerSample / 8);
+        }
 
         while(this.restOfDataSize > 0){
             makePerUnitAudioData(bufferSize);
@@ -106,7 +113,7 @@ public class EvalController {
     }
     // bufferSizeで指定されたバイト数のデータを読んでセットする
     private void makePerUnitAudioData(int bufferSize) throws IOException {
-        byte[] buffer = new byte[bufferSize];// TODO 0.5秒分くらいのデータにする
+        byte[] buffer = new byte[bufferSize];
         int readSize;
         int audioDataSize = bufferSize / (this.bitPerSample / 8);
         double[] audioData = new double[audioDataSize];
