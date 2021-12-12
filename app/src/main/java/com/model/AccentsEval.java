@@ -45,17 +45,9 @@ class AccentsEval extends Evaluator {
         }
 
         if(0 <= evalResult.score && evalResult.score < 20){
-            if(diffRate > diffRateMax){
-                evalResult.text = "抑揚つけすぎ";
-            }else{
-                evalResult.text = "まだまだ足りない";
-            }
+            evalResult.text = "まだまだ足りない";
         }else if(20 <= evalResult.score && evalResult.score < 40){
-            if(diffRate > diffRateMax){
-                evalResult.text = "ちょっと抑揚つけすぎ";
-            }else{
-                evalResult.text = "ちょっと足りない";
-            }
+            evalResult.text = "ちょっと足りない";
         }else if(40 <= evalResult.score && evalResult.score < 60){
             evalResult.text = "そこそこ";
         }else if(60 <= evalResult.score && evalResult.score < 80){
