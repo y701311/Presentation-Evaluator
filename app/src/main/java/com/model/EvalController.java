@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.ByteBuffer;
 
 import android.content.Context;
-import android.util.Pair;
 
 public class EvalController {
     // 評価対象のファイルストリーム
@@ -60,23 +59,23 @@ public class EvalController {
         }
 
         // 評価結果の取得
-        Pair<Double, String> evalResult;
+        EvalResult evalResult;
 
         evalResult = accentsEval.returnResult();
-        evaluationValues.accents = evalResult.first;
-        evaluationValues.accentsText = evalResult.second;
+        evaluationValues.accents = evalResult.score;
+        evaluationValues.accentsText = evalResult.text;
         evalResult = meanLessWordsEval.returnResult();
-        evaluationValues.meanLessWords = evalResult.first;
-        evaluationValues.meanLessWordsText = evalResult.second;
+        evaluationValues.meanLessWords = evalResult.score;
+        evaluationValues.meanLessWordsText = evalResult.text;
         evalResult = speakingIntervalEval.returnResult();
-        evaluationValues.speakingInterval = evalResult.first;
-        evaluationValues.speakingIntervalText = evalResult.second;
+        evaluationValues.speakingInterval = evalResult.score;
+        evaluationValues.speakingIntervalText = evalResult.text;
         evalResult = speakingSpeedEval.returnResult();
-        evaluationValues.speakingSpeed = evalResult.first;
-        evaluationValues.speakingSpeedText = evalResult.second;
+        evaluationValues.speakingSpeed = evalResult.score;
+        evaluationValues.speakingSpeedText = evalResult.text;
         evalResult = volumeEval.returnResult();
-        evaluationValues.volume = evalResult.first;
-        evaluationValues.volumeText = evalResult.second;
+        evaluationValues.volume = evalResult.score;
+        evaluationValues.volumeText = evalResult.text;
 
         // 総合評価を決定
         double total = 0;

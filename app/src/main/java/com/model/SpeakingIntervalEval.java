@@ -1,7 +1,5 @@
 package com.model;
 
-import android.util.Pair;
-
 import java.util.ArrayList;
 
 class SpeakingIntervalEval extends Evaluator {
@@ -22,14 +20,13 @@ class SpeakingIntervalEval extends Evaluator {
 
     // 値が一定値以下なら話していないとして、そのような時間の割合を評価
     @Override
-    Pair<Double, String> returnResult() {
+    EvalResult returnResult() {
+        EvalResult evalResult = new EvalResult();
         final double base = 30;// ささやき声くらい
         int silentCount = 0;
         // 話していないとした割合
         double silentRate;
         final double bestSilentRate = 0.2;
-        double score = 0;
-        String text = "";
 
         for(double value : this.evalValue){
             if(value <= base){
@@ -39,35 +36,37 @@ class SpeakingIntervalEval extends Evaluator {
         silentRate = (double)silentCount / this.evalValue.size();
 
         if(silentRate < bestSilentRate){
-            score = 100 - ((bestSilentRate - silentRate) / bestSilentRate) * 100;
+            evalResult.score = 100 - ((bestSilentRate - silentRate) / bestSilentRate) * 100;
+            evalResult.evalDirection = evalResult.small;
         }else if(silentRate >= bestSilentRate){
-            score = 100 - ((silentRate - bestSilentRate) / (1 - bestSilentRate)) * 100;
+            evalResult.score = 100 - ((silentRate - bestSilentRate) / (1 - bestSilentRate)) * 100;
+            evalResult.evalDirection = evalResult.large;
         }
 
-        if(0 <= score && score < 20){
+        if(0 <= evalResult.score && evalResult.score < 20){
             if(silentRate > bestSilentRate){
-                text = "長すぎ";
+                evalResult.text = "長すぎ";
             }else{
-                text = "短すぎ";
+                evalResult.text = "短すぎ";
             }
-        }else if(20 <= score && score < 40){
+        }else if(20 <= evalResult.score && evalResult.score < 40){
             if(silentRate > bestSilentRate){
-                text = "長い";
+                evalResult.text = "長い";
             }else{
-                text = "短い";
+                evalResult.text = "短い";
             }
-        }else if(40 <= score && score < 60){
+        }else if(40 <= evalResult.score && evalResult.score < 60){
             if(silentRate > bestSilentRate){
-                text = "ちょっと長い";
+                evalResult.text = "ちょっと長い";
             }else{
-                text = "ちょっと短い";
+                evalResult.text = "ちょっと短い";
             }
-        }else if(60 <= score && score < 80){
-            text = "いい感じ";
-        }else if(80 <= score && score <= 100){
-            text = "ばっちり！";
+        }else if(60 <= evalResult.score && evalResult.score < 80){
+            evalResult.text = "いい感じ";
+        }else if(80 <= evalResult.score && evalResult.score <= 100){
+            evalResult.text = "ばっちり！";
         }
 
-        return new Pair<>(score, text);
+        return evalResult;
     }
 }

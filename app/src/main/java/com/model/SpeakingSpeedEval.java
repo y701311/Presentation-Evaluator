@@ -1,7 +1,5 @@
 package com.model;
 
-import android.util.Pair;
-
 import java.util.ArrayList;
 
 class SpeakingSpeedEval extends Evaluator {
@@ -60,12 +58,11 @@ class SpeakingSpeedEval extends Evaluator {
     }
 
     @Override
-    Pair<Double, String> returnResult() {
+    EvalResult returnResult() {
+        EvalResult evalResult = new EvalResult();
         double charNumPerSec;
         int charNum = 0;
         final double bestCharNumPerSec = 7;
-        double score = 0;
-        String text = "";
 
         // 話していると判定された数をカウント
         for(Boolean value : this.evalValue){
@@ -76,35 +73,40 @@ class SpeakingSpeedEval extends Evaluator {
         charNumPerSec = charNum / this.timePerData;
 
         // 点数化
-        score = 100 * (1 - Math.abs(1 - charNumPerSec / bestCharNumPerSec));
-        if(score < 0){
-            score = 0;
+        evalResult.score = 100 * (1 - Math.abs(1 - charNumPerSec / bestCharNumPerSec));
+        if(evalResult.score < 0){
+            evalResult.score = 0;
+        }
+        if(charNumPerSec > bestCharNumPerSec){
+            evalResult.evalDirection = evalResult.large;
+        }else{
+            evalResult.evalDirection = evalResult.small;
         }
 
-        if(0 <= score && score < 20){
+        if(0 <= evalResult.score && evalResult.score < 20){
             if(charNumPerSec > bestCharNumPerSec){
-                text = "早すぎ";
+                evalResult.text = "早すぎ";
             }else{
-                text = "遅すぎ";
+                evalResult.text = "遅すぎ";
             }
-        }else if(20 <= score && score < 40){
+        }else if(20 <= evalResult.score && evalResult.score < 40){
             if(charNumPerSec > bestCharNumPerSec){
-                text = "早い";
+                evalResult.text = "早い";
             }else{
-                text = "遅い";
+                evalResult.text = "遅い";
             }
-        }else if(40 <= score && score < 60){
+        }else if(40 <= evalResult.score && evalResult.score < 60){
             if(charNumPerSec > bestCharNumPerSec){
-                text = "ちょっと早い";
+                evalResult.text = "ちょっと早い";
             }else{
-                text = "ちょっと遅い";
+                evalResult.text = "ちょっと遅い";
             }
-        }else if(60 <= score && score < 80){
-            text = "いい感じ";
-        }else if(80 <= score && score <= 100){
-            text = "ばっちり！";
+        }else if(60 <= evalResult.score && evalResult.score < 80){
+            evalResult.text = "いい感じ";
+        }else if(80 <= evalResult.score && evalResult.score <= 100){
+            evalResult.text = "ばっちり！";
         }
 
-        return new Pair<>(score, text);
+        return evalResult;
     }
 }

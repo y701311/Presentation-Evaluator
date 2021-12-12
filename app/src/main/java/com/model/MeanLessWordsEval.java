@@ -1,7 +1,5 @@
 package com.model;
 
-import android.util.Pair;
-
 import java.util.ArrayList;
 
 class MeanLessWordsEval extends Evaluator {
@@ -69,11 +67,10 @@ class MeanLessWordsEval extends Evaluator {
     }
 
     @Override
-    Pair<Double, String> returnResult() {
+    EvalResult returnResult() {
+        EvalResult evalResult = new EvalResult();
         double numOfMeanLessWordsPerMinute;
         int numOfMeanLessWords = 0;
-        double score = 0;
-        String text = "";
 
         // 同じ母音が3回以上続いているなら意味がないとする
         int meanLessWordsBorder = 3;
@@ -95,23 +92,23 @@ class MeanLessWordsEval extends Evaluator {
 
         // 点数化
         // 意味のない語の頻度が30回/分なら0点になるくらい
-        score = 100 - (double)(100 / 30) * numOfMeanLessWordsPerMinute;
-        if(score < 0){
-            score = 0;
+        evalResult.score = 100 - (double)(100 / 30) * numOfMeanLessWordsPerMinute;
+        if(evalResult.score < 0){
+            evalResult.score = 0;
         }
 
-        if(0 <= score && score < 20){
-            text = "多すぎ";
-        }else if(20 <= score && score < 40){
-            text = "多い";
-        }else if(40 <= score && score < 60){
-            text = "ちょっと多い";
-        }else if(60 <= score && score < 80){
-            text = "いい感じ";
-        }else if(80 <= score && score <= 100){
-            text = "ばっちり！";
+        if(0 <= evalResult.score && evalResult.score < 20){
+            evalResult.text = "多すぎ";
+        }else if(20 <= evalResult.score && evalResult.score < 40){
+            evalResult.text = "多い";
+        }else if(40 <= evalResult.score && evalResult.score < 60){
+            evalResult.text = "ちょっと多い";
+        }else if(60 <= evalResult.score && evalResult.score < 80){
+            evalResult.text = "いい感じ";
+        }else if(80 <= evalResult.score && evalResult.score <= 100){
+            evalResult.text = "ばっちり！";
         }
 
-        return new Pair<>(score, text);
+        return evalResult;
     }
 }
