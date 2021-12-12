@@ -21,12 +21,12 @@ class SpeakingIntervalEval extends Evaluator {
     // 値が一定値以下なら話していないとして、そのような時間の割合を評価
     @Override
     double returnResult() {
-        double evalValue = 0;
         final double base = 30;// ささやき声くらい
         int silentCount = 0;
         // 話していないとした割合
         double silentRate;
         final double bestSilentRate = 0.2;
+        double score;
 
         for(double value : this.evalValue){
             if(value <= base){
@@ -36,11 +36,11 @@ class SpeakingIntervalEval extends Evaluator {
         silentRate = (double)silentCount / this.evalValue.size();
 
         if(silentRate < bestSilentRate){
-            evalValue = 100 - ((bestSilentRate - silentRate) / bestSilentRate) * 100;
+            score = 100 - ((bestSilentRate - silentRate) / bestSilentRate) * 100;
         }else if(silentRate >= bestSilentRate){
-            evalValue = 100 - ((silentRate - bestSilentRate) / (1 - bestSilentRate)) * 100;
+            score = 100 - ((silentRate - bestSilentRate) / (1 - bestSilentRate)) * 100;
         }
 
-        return evalValue;
+        return silentRate;
     }
 }

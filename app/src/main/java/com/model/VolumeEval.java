@@ -20,9 +20,9 @@ class VolumeEval extends Evaluator {
 
     @Override
     double returnResult() {
-        double evalValue = 0;
         double decibelMean = 0;
         final double bestVolume = 50;
+        double score;
 
         // デシベルの平均値を算出
         for(double value : this.evalValue){
@@ -35,8 +35,8 @@ class VolumeEval extends Evaluator {
         if(decibelMean >= bestVolume * 2){
             decibelMean = bestVolume * 2;
         }
-        evalValue = 100 - Math.abs(bestVolume - decibelMean);
+        score = 100 - Math.abs(bestVolume - decibelMean);
 
-        return evalValue;
+        return decibelMean;
     }
 }

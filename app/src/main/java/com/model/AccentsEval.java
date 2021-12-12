@@ -44,6 +44,6 @@ class AccentsEval extends Evaluator {
             score = 100 * (diffRate - diffRateMin) / (diffRateMax - diffRateMin);
         }
 
-        return score;
+        return diffRate;
     }
 }
