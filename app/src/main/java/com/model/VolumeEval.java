@@ -41,11 +41,23 @@ class VolumeEval extends Evaluator {
         score = 100 - Math.abs(bestVolume - decibelMean);
 
         if(0 <= score && score < 20){
-            text = "まだまだ";
+            if(decibelMean > bestVolume){
+                text = "声が大きすぎる";
+            }else{
+                text = "声が小さすぎる"
+            }
         }else if(20 <= score && score < 40){
-            text = "ちょっと足りない";
+            if(decibelMean > bestVolume){
+                text = "声が大きい";
+            }else{
+                text = "声が小さい"
+            }
         }else if(40 <= score && score < 60){
-            text = "そこそこ";
+            if(decibelMean > bestVolume){
+                text = "ちょっと声が大きい";
+            }else{
+                text = "ちょっと声が小さい"
+            }
         }else if(60 <= score && score < 80){
             text = "いい感じ";
         }else if(80 <= score && score <= 100){

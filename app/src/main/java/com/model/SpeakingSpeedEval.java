@@ -82,11 +82,23 @@ class SpeakingSpeedEval extends Evaluator {
         }
 
         if(0 <= score && score < 20){
-            text = "まだまだ";
+            if(charNumPerSec > bestCharNumPerSec){
+                text = "早すぎ";
+            }else{
+                text = "遅すぎ";
+            }
         }else if(20 <= score && score < 40){
-            text = "ちょっと足りない";
+            if(charNumPerSec > bestCharNumPerSec){
+                text = "早い";
+            }else{
+                text = "遅い";
+            }
         }else if(40 <= score && score < 60){
-            text = "そこそこ";
+            if(charNumPerSec > bestCharNumPerSec){
+                text = "ちょっと早い";
+            }else{
+                text = "ちょっと遅い";
+            }
         }else if(60 <= score && score < 80){
             text = "いい感じ";
         }else if(80 <= score && score <= 100){

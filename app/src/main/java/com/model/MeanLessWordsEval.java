@@ -101,11 +101,11 @@ class MeanLessWordsEval extends Evaluator {
         }
 
         if(0 <= score && score < 20){
-            text = "まだまだ";
+            text = "多すぎ";
         }else if(20 <= score && score < 40){
-            text = "ちょっと足りない";
+            text = "多い";
         }else if(40 <= score && score < 60){
-            text = "そこそこ";
+            text = "ちょっと多い";
         }else if(60 <= score && score < 80){
             text = "いい感じ";
         }else if(80 <= score && score <= 100){

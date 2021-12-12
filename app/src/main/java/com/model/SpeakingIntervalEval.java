@@ -45,11 +45,23 @@ class SpeakingIntervalEval extends Evaluator {
         }
 
         if(0 <= score && score < 20){
-            text = "まだまだ";
+            if(silentRate > bestSilentRate){
+                text = "長すぎ";
+            }else{
+                text = "短すぎ";
+            }
         }else if(20 <= score && score < 40){
-            text = "ちょっと足りない";
+            if(silentRate > bestSilentRate){
+                text = "長い";
+            }else{
+                text = "短い";
+            }
         }else if(40 <= score && score < 60){
-            text = "そこそこ";
+            if(silentRate > bestSilentRate){
+                text = "ちょっと長い";
+            }else{
+                text = "ちょっと短い";
+            }
         }else if(60 <= score && score < 80){
             text = "いい感じ";
         }else if(80 <= score && score <= 100){

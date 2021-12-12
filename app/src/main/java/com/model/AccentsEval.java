@@ -48,9 +48,17 @@ class AccentsEval extends Evaluator {
         }
 
         if(0 <= score && score < 20){
-            text = "まだまだ";
+            if(diffRate > diffRateMax){
+                text = "抑揚つけすぎ";
+            }else{
+                text = "まだまだ足りない";
+            }
         }else if(20 <= score && score < 40){
-            text = "ちょっと足りない";
+            if(diffRate > diffRateMax){
+                text = "ちょっと抑揚つけすぎ";
+            }else{
+                text = "ちょっと足りない";
+            }
         }else if(40 <= score && score < 60){
             text = "そこそこ";
         }else if(60 <= score && score < 80){
