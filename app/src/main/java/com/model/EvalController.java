@@ -60,22 +60,32 @@ public class EvalController {
 
         // 評価結果の取得
         EvalResult evalResult;
+        int accentsEvalDirection;
+        int meanLessWordsEvalDirection;
+        int speakingIntervalEvalDirection;
+        int speakingSpeedEvalDirection;
+        int volumeEvalDirection;
 
         evalResult = accentsEval.returnResult();
         evaluationValues.accents = evalResult.score;
         evaluationValues.accentsText = evalResult.text;
+        accentsEvalDirection = evalResult.evalDirection;
         evalResult = meanLessWordsEval.returnResult();
         evaluationValues.meanLessWords = evalResult.score;
         evaluationValues.meanLessWordsText = evalResult.text;
+        meanLessWordsEvalDirection = evalResult.evalDirection;
         evalResult = speakingIntervalEval.returnResult();
         evaluationValues.speakingInterval = evalResult.score;
         evaluationValues.speakingIntervalText = evalResult.text;
+        speakingIntervalEvalDirection = evalResult.evalDirection;
         evalResult = speakingSpeedEval.returnResult();
         evaluationValues.speakingSpeed = evalResult.score;
         evaluationValues.speakingSpeedText = evalResult.text;
+        speakingSpeedEvalDirection = evalResult.evalDirection;
         evalResult = volumeEval.returnResult();
         evaluationValues.volume = evalResult.score;
         evaluationValues.volumeText = evalResult.text;
+        volumeEvalDirection = evalResult.evalDirection;
 
         // 総合評価を決定
         double total = 0;
@@ -86,9 +96,11 @@ public class EvalController {
         total += evaluationValues.volume / 20;
         evaluationValues.total = total;
 
-        if(evaluationValues.accents <= 60 && evaluationValues.speakingSpeed <= 60){
-            evaluationValues.totalText = "聞きづらい";
-        }else if(evaluationValues.speakingSpeed <= 60 && evaluationValues.speakingInterval <= 60){
+        if(evaluationValues.accents <= 60 ||
+                (evaluationValues.speakingSpeed <= 60 && speakingSpeedEvalDirection == evalResult.large)){
+            evaluationValues.totalText = "聞き取りづらい";
+        }else if((evaluationValues.speakingSpeed <= 60 && speakingSpeedEvalDirection == evalResult.small) ||
+                evaluationValues.speakingInterval <= 60){
             evaluationValues.totalText = "退屈";
         }else{
             evaluationValues.totalText = "聞きやすい";
