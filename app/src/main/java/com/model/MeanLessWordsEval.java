@@ -77,7 +77,7 @@ class MeanLessWordsEval extends Evaluator {
         int sameVowelContinues = 0;
         String previousVowel = "";
         for(String vowel : this.evalValue){
-            if(vowel == previousVowel && vowel != this.noVowel){
+            if(vowel.equals(previousVowel) && !vowel.equals(this.noVowel)){
                 sameVowelContinues++;
             }else if(sameVowelContinues >= meanLessWordsBorder){
                 sameVowelContinues = 0;
@@ -85,11 +85,14 @@ class MeanLessWordsEval extends Evaluator {
             }
             previousVowel = vowel;
         }
+        if(sameVowelContinues >= meanLessWordsBorder){
+            numOfMeanLessWords++;
+        }
         numOfMeanLessWordsPerMinute = 60 * numOfMeanLessWords / (this.timePerData);
 
         // 点数化
         // 意味のない語の頻度が30回/分なら0点になるくらい
-        score = 100 - (100 / 30) * numOfMeanLessWordsPerMinute;
+        score = 100 - (double)(100 / 30) * numOfMeanLessWordsPerMinute;
         if(score < 0){
             score = 0;
         }
