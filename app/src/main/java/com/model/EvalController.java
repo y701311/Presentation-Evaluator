@@ -35,9 +35,9 @@ public class EvalController {
         if(this.samplingRate == 44100){
             // サンプリングレートが44.1kHzなら0.093秒くらい分のデータ
             bufferSize = 4096 * (bitPerSample / 8);
-            timePerData = 4096 / this.samplingRate;
+            timePerData = (double)4096 / this.samplingRate;
         }else{
-            bufferSize = (int) 0.1 * samplingRate * (bitPerSample / 8);
+            bufferSize = (int) (0.1 * samplingRate * (bitPerSample / 8));
             timePerData = 0.1;
         }
 
@@ -48,12 +48,10 @@ public class EvalController {
         SpeakingSpeedEval speakingSpeedEval = new SpeakingSpeedEval(timePerData);
         VolumeEval volumeEval = new VolumeEval();
 
+        // 評価実行
         while(this.restOfDataSize > 0){
             makePerUnitAudioData(bufferSize);
 
-            // TODO フーリエ変換
-
-            // TODO xxx.calculation(data1, data2, ...);
             accentsEval.calculation(this.perUnitAudioData);
             meanLessWordsEval.calculation(this.perUnitAudioData);
             speakingIntervalEval.calculation(this.perUnitAudioData);
@@ -61,6 +59,7 @@ public class EvalController {
             volumeEval.calculation(this.perUnitAudioData);
         }
 
+        // 評価結果の取得
         Pair<Double, String> evalResult;
 
         evalResult = accentsEval.returnResult();
@@ -78,6 +77,23 @@ public class EvalController {
         evalResult = volumeEval.returnResult();
         evaluationValues.volume = evalResult.first;
         evaluationValues.volumeText = evalResult.second;
+
+        // 総合評価を決定
+        double total = 0;
+        total += evaluationValues.accents / 20;
+        total += evaluationValues.meanLessWords / 20;
+        total += evaluationValues.speakingInterval / 20;
+        total += evaluationValues.speakingSpeed / 20;
+        total += evaluationValues.volume / 20;
+        evaluationValues.total = total;
+
+        if(evaluationValues.accents <= 60 && evaluationValues.speakingSpeed <= 60){
+            evaluationValues.totalText = "聞きづらい";
+        }else if(evaluationValues.speakingSpeed <= 60 && evaluationValues.speakingInterval <= 60){
+            evaluationValues.totalText = "退屈";
+        }else{
+            evaluationValues.totalText = "聞きやすい";
+        }
 
         this.audioStream.close();
 
