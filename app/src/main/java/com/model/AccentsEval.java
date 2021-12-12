@@ -1,5 +1,7 @@
 package com.model;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 
 class AccentsEval extends Evaluator {
@@ -24,8 +26,9 @@ class AccentsEval extends Evaluator {
     }
 
     @Override
-    double returnResult() {
-        double score;
+    Pair<Double, String> returnResult() {
+        double score = 0;
+        String text = "";
         final double diffRateMin = 3, diffRateMax = 10;
         double diffSum = 0, diffRate;
 
@@ -44,6 +47,18 @@ class AccentsEval extends Evaluator {
             score = 100 * (diffRate - diffRateMin) / (diffRateMax - diffRateMin);
         }
 
-        return diffRate;
+        if(0 <= score && score < 20){
+            text = "まだまだ";
+        }else if(20 <= score && score < 40){
+            text = "ちょっと足りない";
+        }else if(40 <= score && score < 60){
+            text = "そこそこ";
+        }else if(60 <= score && score < 80){
+            text = "いい感じ";
+        }else if(80 <= score && score <= 100){
+            text = "ばっちり！";
+        }
+
+        return new Pair<>(score, text);
     }
 }

@@ -1,5 +1,7 @@
 package com.model;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 
 class VolumeEval extends Evaluator {
@@ -19,10 +21,11 @@ class VolumeEval extends Evaluator {
     }
 
     @Override
-    double returnResult() {
+    Pair<Double, String> returnResult() {
         double decibelMean = 0;
         final double bestVolume = 50;
-        double score;
+        double score = 0;
+        String text = "";
 
         // デシベルの平均値を算出
         for(double value : this.evalValue){
@@ -37,6 +40,18 @@ class VolumeEval extends Evaluator {
         }
         score = 100 - Math.abs(bestVolume - decibelMean);
 
-        return decibelMean;
+        if(0 <= score && score < 20){
+            text = "まだまだ";
+        }else if(20 <= score && score < 40){
+            text = "ちょっと足りない";
+        }else if(40 <= score && score < 60){
+            text = "そこそこ";
+        }else if(60 <= score && score < 80){
+            text = "いい感じ";
+        }else if(80 <= score && score <= 100){
+            text = "ばっちり！";
+        }
+
+        return new Pair<>(score, text);
     }
 }

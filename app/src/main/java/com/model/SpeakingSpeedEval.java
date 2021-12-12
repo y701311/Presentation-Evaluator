@@ -1,5 +1,7 @@
 package com.model;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 
 class SpeakingSpeedEval extends Evaluator {
@@ -58,11 +60,12 @@ class SpeakingSpeedEval extends Evaluator {
     }
 
     @Override
-    double returnResult() {
+    Pair<Double, String> returnResult() {
         double charNumPerSec;
         int charNum = 0;
         final double bestCharNumPerSec = 7;
-        double score;
+        double score = 0;
+        String text = "";
 
         // 話していると判定された数をカウント
         for(Boolean value : this.evalValue){
@@ -78,6 +81,18 @@ class SpeakingSpeedEval extends Evaluator {
             score = 0;
         }
 
-        return charNumPerSec;
+        if(0 <= score && score < 20){
+            text = "まだまだ";
+        }else if(20 <= score && score < 40){
+            text = "ちょっと足りない";
+        }else if(40 <= score && score < 60){
+            text = "そこそこ";
+        }else if(60 <= score && score < 80){
+            text = "いい感じ";
+        }else if(80 <= score && score <= 100){
+            text = "ばっちり！";
+        }
+
+        return new Pair<>(score, text);
     }
 }

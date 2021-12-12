@@ -1,5 +1,7 @@
 package com.model;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 
 class MeanLessWordsEval extends Evaluator {
@@ -67,10 +69,11 @@ class MeanLessWordsEval extends Evaluator {
     }
 
     @Override
-    double returnResult() {
+    Pair<Double, String> returnResult() {
         double numOfMeanLessWordsPerMinute;
         int numOfMeanLessWords = 0;
-        double score;
+        double score = 0;
+        String text = "";
 
         // 同じ母音が3回以上続いているなら意味がないとする
         int meanLessWordsBorder = 3;
@@ -97,6 +100,18 @@ class MeanLessWordsEval extends Evaluator {
             score = 0;
         }
 
-        return numOfMeanLessWordsPerMinute;
+        if(0 <= score && score < 20){
+            text = "まだまだ";
+        }else if(20 <= score && score < 40){
+            text = "ちょっと足りない";
+        }else if(40 <= score && score < 60){
+            text = "そこそこ";
+        }else if(60 <= score && score < 80){
+            text = "いい感じ";
+        }else if(80 <= score && score <= 100){
+            text = "ばっちり！";
+        }
+
+        return new Pair<>(score, text);
     }
 }

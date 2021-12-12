@@ -1,5 +1,7 @@
 package com.model;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 
 abstract class Evaluator {
@@ -7,5 +9,5 @@ abstract class Evaluator {
 
     abstract void calculation(double[] audioData);
 
-    abstract double returnResult();
+    abstract Pair<Double, String> returnResult();
 }

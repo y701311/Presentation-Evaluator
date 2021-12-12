@@ -1,5 +1,7 @@
 package com.model;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 
 class SpeakingIntervalEval extends Evaluator {
@@ -20,13 +22,14 @@ class SpeakingIntervalEval extends Evaluator {
 
     // 値が一定値以下なら話していないとして、そのような時間の割合を評価
     @Override
-    double returnResult() {
+    Pair<Double, String> returnResult() {
         final double base = 30;// ささやき声くらい
         int silentCount = 0;
         // 話していないとした割合
         double silentRate;
         final double bestSilentRate = 0.2;
-        double score;
+        double score = 0;
+        String text = "";
 
         for(double value : this.evalValue){
             if(value <= base){
@@ -41,6 +44,18 @@ class SpeakingIntervalEval extends Evaluator {
             score = 100 - ((silentRate - bestSilentRate) / (1 - bestSilentRate)) * 100;
         }
 
-        return silentRate;
+        if(0 <= score && score < 20){
+            text = "まだまだ";
+        }else if(20 <= score && score < 40){
+            text = "ちょっと足りない";
+        }else if(40 <= score && score < 60){
+            text = "そこそこ";
+        }else if(60 <= score && score < 80){
+            text = "いい感じ";
+        }else if(80 <= score && score <= 100){
+            text = "ばっちり！";
+        }
+
+        return new Pair<>(score, text);
     }
 }

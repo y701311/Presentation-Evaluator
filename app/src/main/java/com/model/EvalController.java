@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.ByteBuffer;
 
 import android.content.Context;
+import android.util.Pair;
 
 public class EvalController {
     // 評価対象のファイルストリーム
@@ -60,11 +61,23 @@ public class EvalController {
             volumeEval.calculation(this.perUnitAudioData);
         }
 
-        evaluationValues.accents = accentsEval.returnResult();
-        evaluationValues.meanLessWords = meanLessWordsEval.returnResult();
-        evaluationValues.speakingInterval = speakingIntervalEval.returnResult();
-        evaluationValues.speakingSpeed = speakingSpeedEval.returnResult();
-        evaluationValues.volume = volumeEval.returnResult();
+        Pair<Double, String> evalResult;
+
+        evalResult = accentsEval.returnResult();
+        evaluationValues.accents = evalResult.first;
+        evaluationValues.accentsText = evalResult.second;
+        evalResult = meanLessWordsEval.returnResult();
+        evaluationValues.meanLessWords = evalResult.first;
+        evaluationValues.meanLessWordsText = evalResult.second;
+        evalResult = speakingIntervalEval.returnResult();
+        evaluationValues.speakingInterval = evalResult.first;
+        evaluationValues.speakingIntervalText = evalResult.second;
+        evalResult = speakingSpeedEval.returnResult();
+        evaluationValues.speakingSpeed = evalResult.first;
+        evaluationValues.speakingSpeedText = evalResult.second;
+        evalResult = volumeEval.returnResult();
+        evaluationValues.volume = evalResult.first;
+        evaluationValues.volumeText = evalResult.second;
 
         this.audioStream.close();
 
