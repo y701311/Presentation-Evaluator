@@ -16,18 +16,18 @@ public class Evaluator {
     public Evaluator(MainActivity activity, FileSelect fs) {
         this.activity = activity;
         this.fs = fs;
+        value = new EvaluationValues();
     }
 
     public void startEvaluate() {
         ResultDisplay resultDisplay = new ResultDisplay();
-        FileSelect fileSelect = new FileSelect();
         EvalController evalController = new EvalController();
         Uri audioFilePath = fs.getFilePath();
         try {
-            value = evalController.evalController(audioFilePath, (Context) activity);
+            value = evalController.evalController(audioFilePath, activity);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        resultDisplay.display(value);
+        resultDisplay.display(value, activity);
     }
 }

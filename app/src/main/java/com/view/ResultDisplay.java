@@ -8,59 +8,67 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.R;
+import com.presenter.EvaluationValues;
 
 public class ResultDisplay extends Activity {
+    com.presenter.EvaluationValues values;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        String textaccents = intent.getStringExtra("putaccentsText");
-        String textmeanLessWords = intent.getStringExtra("putmeanLessWordsText");
-        String textspeakingInterval = intent.getStringExtra("putspeakingIntervalText");
-        String textspeakingSpeed = intent.getStringExtra("putspeakingSpeedText");
-        String texttotal = intent.getStringExtra("puttotalText");
-        String textvolume = intent.getStringExtra("putvolumeText");
-        double doubleaccents = intent.getDoubleExtra("putaccents",0.0);
-        double doublemeanLessWords= intent.getDoubleExtra("putmeanLessWords",0.0);
-        double doublespeakingInterval = intent.getDoubleExtra("putspeakingInterval",0.0);
-        double doublespeakingSpeed = intent.getDoubleExtra("putspeakingSpeed",0.0);
-        double doubletotal = intent.getDoubleExtra("puttotal",0.0);
-        double doublevolume = intent.getDoubleExtra("putvolume",0.0);
-
         setContentView(R.layout.resulteval);
-        Button returntostart= findViewById(R.id.retrun_to_start);
-        TextView speakingintervaltext= findViewById(R.id.speaking_interval);
-        TextView volumetext= findViewById(R.id.volume);
-        TextView speakingspeedtext= findViewById(R.id.speaking_speed);
-        TextView meanLesswordstext= findViewById(R.id.mean_less_words);
-        TextView accentstext= findViewById(R.id.accent);
-        TextView totaltext= findViewById(R.id.total);
+        //values = (EvaluationValues) getIntent().getSerializableExtra("EvaluationValues");
+        values = new EvaluationValues();
 
-        TextView speakinginterval= findViewById(R.id.);
-        TextView volume= findViewById(R.id.);
-        TextView speakingspeed= findViewById(R.id.);
-        TextView meanLesswords= findViewById(R.id.);
-        TextView accents= findViewById(R.id.);
-        TextView total= findViewById(R.id.);
-        returntostart.setText("ファイル選択画面に戻る");
-        speakingintervaltext.setText(textspeakingInterval);
-        volumetext.setText(textvolume);
-        speakingspeedtext.setText(textspeakingSpeed);
-        meanLesswordstext.setText(textmeanLessWords);
-        accentstext.setText(textaccents);
-        totaltext.setText(texttotal);
-        speakinginterval.setText(String.valueOf(doublespeakingInterval));
-        volume.setText(String.valueOf(doublevolume));
-        speakingspeed.setText(String.valueOf(doublespeakingSpeed));
-        meanLesswords.setText(String.valueOf(doublemeanLessWords));
-        accents.setText(String.valueOf(doubleaccents));
-        total.setText(String.valueOf(doubletotal));
-        returntostart.setOnClickListener(new View.OnClickListener() {
+        Button buttonReturnToStart = findViewById(R.id.return_to_start);
+        TextView speakingIntervalText = findViewById(R.id.speaking_interval);
+        TextView volumeText = findViewById(R.id.volume);
+        TextView speakingSpeedText = findViewById(R.id.speaking_speed);
+        TextView meanLessWordsText = findViewById(R.id.mean_less_words);
+        TextView accentsText = findViewById(R.id.accent);
+        TextView totalText = findViewById(R.id.total);
+
+        TextView speakingInterval = findViewById(R.id.star_speaking_interval);
+        TextView volume = findViewById(R.id.star_volume);
+        TextView speakingSpeed = findViewById(R.id.star_speaking_speed);
+        TextView meanLessWords = findViewById(R.id.star_mean_less_words);
+        TextView accents = findViewById(R.id.star_accent);
+        TextView total = findViewById(R.id.star_total);
+
+        speakingIntervalText.setText(values.speakingIntervalText);
+        volumeText.setText(values.volumeText);
+        speakingSpeedText.setText(values.speakingSpeedText);
+        meanLessWordsText.setText(values.meanLessWordsText);
+        accentsText.setText(values.accentsText);
+        totalText.setText(values.totalText);
+
+        speakingInterval.setText(toStarString(values.speakingInterval));
+        volume.setText(toStarString(values.volume));
+        speakingSpeed.setText(toStarString(values.speakingSpeed));
+        meanLessWords.setText(toStarString(values.meanLessWords));
+        accents.setText(toStarString(values.accents));
+        total.setText(toStarString(values.total));
+        buttonReturnToStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentToStart = new Intent(getApplication(), MainActivity.class);
                 startActivity(intentToStart);
             }
         });
+    }
+
+    private String toStarString(double val) {
+        if (val <= 0.1) {
+            return "☆☆☆☆☆";
+        } else if (val <= 0.3) {
+            return "★☆☆☆☆";
+        } else if (val <= 0.5) {
+            return "★★☆☆☆";
+        } else if (val <= 0.7) {
+            return "★★★☆☆";
+        } else if (val <= 0.9) {
+            return "★★★★☆";
+        } else {
+            return "★★★★★";
+        }
     }
 }

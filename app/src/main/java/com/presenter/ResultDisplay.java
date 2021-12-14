@@ -1,7 +1,11 @@
 package com.presenter;
 
-public class ResultDisplay{
-    public void display(EvaluationValues evaluationValues) {
+import android.app.Activity;
 
+import com.view.MainActivity;
+
+public class ResultDisplay {
+    public void display(EvaluationValues evaluationValues, MainActivity activity) {
+        activity.transitionDisplayResult(evaluationValues);
     }
 }
