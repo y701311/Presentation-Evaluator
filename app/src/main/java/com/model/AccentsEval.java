@@ -24,8 +24,8 @@ class AccentsEval extends Evaluator {
     }
 
     @Override
-    double returnResult() {
-        double score;
+    EvalResult returnResult() {
+        EvalResult evalResult = new EvalResult();
         final double diffRateMin = 3, diffRateMax = 10;
         double diffSum = 0, diffRate;
 
@@ -37,13 +37,25 @@ class AccentsEval extends Evaluator {
 
         // 点数化
         if(diffRate >= diffRateMax){
-            score = 100;
+            evalResult.score = 100;
         }else if(diffRate <= diffRateMin){
-            score = 0;
+            evalResult.score = 0;
         }else{
-            score = 100 * (diffRate - diffRateMin) / (diffRateMax - diffRateMin);
+            evalResult.score = 100 * (diffRate - diffRateMin) / (diffRateMax - diffRateMin);
         }
 
-        return score;
+        if(0 <= evalResult.score && evalResult.score < 20){
+            evalResult.text = "まだまだ足りない";
+        }else if(20 <= evalResult.score && evalResult.score < 40){
+            evalResult.text = "ちょっと足りない";
+        }else if(40 <= evalResult.score && evalResult.score < 60){
+            evalResult.text = "そこそこ";
+        }else if(60 <= evalResult.score && evalResult.score < 80){
+            evalResult.text = "いい感じ";
+        }else if(80 <= evalResult.score && evalResult.score <= 100){
+            evalResult.text = "ばっちり！";
+        }
+
+        return evalResult;
     }
 }

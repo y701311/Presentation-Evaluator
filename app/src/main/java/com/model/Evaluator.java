@@ -7,5 +7,5 @@ abstract class Evaluator {
 
     abstract void calculation(double[] audioData);
 
-    abstract double returnResult();
+    abstract EvalResult returnResult();
 }

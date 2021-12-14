@@ -1,16 +1,31 @@
 package com.presenter;
 
-import java.nio.file.Path;
+import android.net.Uri;
 
-public class FileSelect{
-    private Path audioFilePath;
-    public void fileSelect(){
+import com.view.MainActivity;
 
+import java.io.File;
+
+public class FileSelect {
+    private Uri audioFilePath = null;
+    private File file;
+
+    public void changeFile(Uri uri) {
+        audioFilePath = uri;
+        file = new File(audioFilePath.getPath());
     }
-    public Path getFilePath(){
-        return null;
-    }
-    public void setFilePath(){
 
+    public Uri getFilePath() {
+        return audioFilePath;
+    }
+
+    public String getFileName() {
+        String fileName = file.getName();
+        return fileName;
+    }
+
+    public long getFileSize() {
+        long fileSize = file.length();
+        return fileSize;
     }
 }

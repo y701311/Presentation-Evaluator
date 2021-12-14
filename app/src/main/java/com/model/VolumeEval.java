@@ -19,8 +19,8 @@ class VolumeEval extends Evaluator {
     }
 
     @Override
-    double returnResult() {
-        double evalValue = 0;
+    EvalResult returnResult() {
+        EvalResult evalResult = new EvalResult();
         double decibelMean = 0;
         final double bestVolume = 50;
 
@@ -35,8 +35,38 @@ class VolumeEval extends Evaluator {
         if(decibelMean >= bestVolume * 2){
             decibelMean = bestVolume * 2;
         }
-        evalValue = 100 - Math.abs(bestVolume - decibelMean);
+        evalResult.score = 100 - Math.abs(bestVolume - decibelMean);
 
-        return evalValue;
+        if(decibelMean > bestVolume){
+            evalResult.evalDirection = evalResult.large;
+        }else{
+            evalResult.evalDirection = evalResult.small;
+        }
+
+        if(0 <= evalResult.score && evalResult.score < 20){
+            if(decibelMean > bestVolume){
+                evalResult.text = "声が大きすぎる";
+            }else{
+                evalResult.text = "声が小さすぎる";
+            }
+        }else if(20 <= evalResult.score && evalResult.score < 40){
+            if(decibelMean > bestVolume){
+                evalResult.text = "声が大きい";
+            }else{
+                evalResult.text = "声が小さい";
+            }
+        }else if(40 <= evalResult.score && evalResult.score < 60){
+            if(decibelMean > bestVolume){
+                evalResult.text = "ちょっと声が大きい";
+            }else{
+                evalResult.text = "ちょっと声が小さい";
+            }
+        }else if(60 <= evalResult.score && evalResult.score < 80){
+            evalResult.text = "いい感じ";
+        }else if(80 <= evalResult.score && evalResult.score <= 100){
+            evalResult.text = "ばっちり！";
+        }
+
+        return evalResult;
     }
 }

@@ -3,10 +3,10 @@ package com.model;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.ByteBuffer;
 
 import android.content.Context;
+import android.net.Uri;
 
 public class EvalController {
     // 評価対象のファイルストリーム
@@ -23,26 +23,34 @@ public class EvalController {
     private int bitPerSample;
 
     // 渡されたパスのオーディオファイルを評価して、評価値を返す
-    public com.presenter.EvaluationValues evalController(Path audioFilePath, Context context) throws IOException {
+    public com.presenter.EvaluationValues evalController(Uri audioFilePath, Context context) throws IOException {
         com.presenter.EvaluationValues evaluationValues = new com.presenter.EvaluationValues();
-        final int bufferSize = 1024;
-
-        // 各評価項目のインスタンス生成
-        AccentsEval accentsEval = new AccentsEval();
-        MeanLessWordsEval meanLessWordsEval = new MeanLessWordsEval();
-        SpeakingIntervalEval speakingIntervalEval = new SpeakingIntervalEval();
-        SpeakingSpeedEval speakingSpeedEval = new SpeakingSpeedEval();
-        VolumeEval volumeEval = new VolumeEval();
 
         setAudioStream(audioFilePath, context);
         preProcess();
 
+        int bufferSize;
+        double timePerData;
+        if (this.samplingRate == 44100) {
+            // サンプリングレートが44.1kHzなら0.093秒くらい分のデータ
+            bufferSize = 4096 * (bitPerSample / 8);
+            timePerData = (double)4096 / this.samplingRate;
+        }else{
+            bufferSize = (int) (0.1 * samplingRate * (bitPerSample / 8));
+            timePerData = 0.1;
+        }
+
+        // 各評価項目のインスタンス生成
+        AccentsEval accentsEval = new AccentsEval();
+        MeanLessWordsEval meanLessWordsEval = new MeanLessWordsEval(timePerData);
+        SpeakingIntervalEval speakingIntervalEval = new SpeakingIntervalEval();
+        SpeakingSpeedEval speakingSpeedEval = new SpeakingSpeedEval(timePerData);
+        VolumeEval volumeEval = new VolumeEval();
+
+        // 評価実行
         while(this.restOfDataSize > 0){
             makePerUnitAudioData(bufferSize);
 
-            // TODO フーリエ変換
-
-            // TODO xxx.calculation(data1, data2, ...);
             accentsEval.calculation(this.perUnitAudioData);
             meanLessWordsEval.calculation(this.perUnitAudioData);
             speakingIntervalEval.calculation(this.perUnitAudioData);
@@ -50,20 +58,64 @@ public class EvalController {
             volumeEval.calculation(this.perUnitAudioData);
         }
 
-        evaluationValues.accents = accentsEval.returnResult();
-        evaluationValues.meanLessWords = meanLessWordsEval.returnResult();
-        evaluationValues.speakingInterval = speakingIntervalEval.returnResult();
-        evaluationValues.speakingSpeed = speakingSpeedEval.returnResult();
-        evaluationValues.volume = volumeEval.returnResult();
+        // 評価結果の取得
+        EvalResult evalResult;
+        int accentsEvalDirection;
+        int meanLessWordsEvalDirection;
+        int speakingIntervalEvalDirection;
+        int speakingSpeedEvalDirection;
+        int volumeEvalDirection;
+
+        evalResult = accentsEval.returnResult();
+        evaluationValues.accents = evalResult.score;
+        evaluationValues.accentsText = evalResult.text;
+        accentsEvalDirection = evalResult.evalDirection;
+        evalResult = meanLessWordsEval.returnResult();
+        evaluationValues.meanLessWords = evalResult.score;
+        evaluationValues.meanLessWordsText = evalResult.text;
+        meanLessWordsEvalDirection = evalResult.evalDirection;
+        evalResult = speakingIntervalEval.returnResult();
+        evaluationValues.speakingInterval = evalResult.score;
+        evaluationValues.speakingIntervalText = evalResult.text;
+        speakingIntervalEvalDirection = evalResult.evalDirection;
+        evalResult = speakingSpeedEval.returnResult();
+        evaluationValues.speakingSpeed = evalResult.score;
+        evaluationValues.speakingSpeedText = evalResult.text;
+        speakingSpeedEvalDirection = evalResult.evalDirection;
+        evalResult = volumeEval.returnResult();
+        evaluationValues.volume = evalResult.score;
+        evaluationValues.volumeText = evalResult.text;
+        volumeEvalDirection = evalResult.evalDirection;
+
+        // 総合評価を決定
+        double total = 0;
+        total += evaluationValues.accents / 20;
+        total += evaluationValues.meanLessWords / 20;
+        total += evaluationValues.speakingInterval / 20;
+        total += evaluationValues.speakingSpeed / 20;
+        total += evaluationValues.volume / 20;
+        evaluationValues.total = total;
+
+        if(evaluationValues.accents <= 60 ||
+                (evaluationValues.speakingSpeed <= 60 && speakingSpeedEvalDirection == evalResult.large)){
+            evaluationValues.totalText = "聞き取りづらい";
+        }else if((evaluationValues.speakingSpeed <= 60 && speakingSpeedEvalDirection == evalResult.small) ||
+                evaluationValues.speakingInterval <= 60){
+            evaluationValues.totalText = "退屈";
+        } else {
+            evaluationValues.totalText = "聞きやすい";
+        }
 
         this.audioStream.close();
 
         return evaluationValues;
     }
+
     // 自クラスにファイルストリームをセットする
-    private void setAudioStream(Path audioFilePath, Context context) throws FileNotFoundException {
+    private void setAudioStream(Uri audioFilePath, Context context) throws FileNotFoundException {
         this.audioStream = context.openFileInput(audioFilePath.toString());
     }
+
     // ファイルからデータを取り出す際の前処理
     private void preProcess() throws IOException {
         final int readHeaderSize = 36;
@@ -106,7 +158,7 @@ public class EvalController {
     }
     // bufferSizeで指定されたバイト数のデータを読んでセットする
     private void makePerUnitAudioData(int bufferSize) throws IOException {
-        byte[] buffer = new byte[bufferSize];// TODO 0.5秒分くらいのデータにする
+        byte[] buffer = new byte[bufferSize];
         int readSize;
         int audioDataSize = bufferSize / (this.bitPerSample / 8);
         double[] audioData = new double[audioDataSize];

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Presentation-Evaluator</string>
+    <string name="button_start">評価開始！</string>
+    <string name="text_select">ファイルを選択してください</string>
+    <string name="button_select_file">ファイルを選択</string>
+    <string name="file_name_is">ファイル名：</string>
+    <string name="file_size_is">ファイルサイズ：</string>
 </resources>

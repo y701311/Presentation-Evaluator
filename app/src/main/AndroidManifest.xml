@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.main">
+    package="com">
 
     <application
         android:allowBackup="true"
@@ -9,15 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PresentationEvaluator">
+
         <activity
-            android:name="com.main.MainActivity"
+            android:name=".view.MainActivity"
+            android:label="@string/app_name"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.ResultDisplay"
+            android:exported="false"
+            android:label="@string/button_select_file"></activity>
     </application>
-
 </manifest>
