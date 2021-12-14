@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/return_start"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/speaking_interval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="話の合間"
+        app:layout_constraintBottom_toTopOf="@+id/volume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="総計"
+        app:layout_constraintBottom_toTopOf="@+id/retrun_to_start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accent" />
+
+    <TextView
+        android:id="@+id/volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="声の大きさ"
+        app:layout_constraintBottom_toTopOf="@+id/speaking_speed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speaking_interval" />
+
+    <TextView
+        android:id="@+id/speaking_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="話すスピード"
+        app:layout_constraintBottom_toTopOf="@+id/mean_less_words"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/volume" />
+
+    <TextView
+        android:id="@+id/mean_less_words"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="意味のない語"
+        app:layout_constraintBottom_toTopOf="@+id/accent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speaking_speed" />
+
+    <TextView
+        android:id="@+id/accent"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:text="抑揚"
+        app:layout_constraintBottom_toTopOf="@+id/total"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mean_less_words" />
+
+    <Button
+        android:id="@+id/retrun_to_start"
+        android:layout_width="169dp"
+        android:layout_height="50dp"
+        android:text="@string/button_return_to_start"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

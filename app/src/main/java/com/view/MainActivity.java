@@ -52,17 +52,22 @@ public class MainActivity extends AppCompatActivity {
         buttonStartEval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                com.presenter.Evaluator evaluator = new Evaluator(activity, fileSelect);
-                evaluator.startEvaluate();
+                //com.presenter.Evaluator evaluator = new Evaluator(activity, fileSelect);
+                //evaluator.startEvaluate();
+
             }
         });
 
         ButtonFileSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /*
                 fileSelect.changeFile(fileSelect());
                 fileName.setText(String.valueOf(fileSelect.getFileName()));
                 fileSize.setText(String.valueOf(fileSelect.getFileSize()));
+
+                 */
             }
         });
     }
@@ -83,10 +88,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Uri fileSelect() {
-        this.onPause();
         openFile();
         if (getUri == null) System.out.println("ほげほげほげほげほげ");
-        this.onResume();
         return getUri;
     }
 }
