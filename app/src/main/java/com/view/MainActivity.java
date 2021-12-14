@@ -21,6 +21,9 @@ import com.presenter.Evaluator;
 
 public class MainActivity extends AppCompatActivity {
     Uri getUri;
+    com.presenter.FileSelect fileSelect;
+    TextView fileName;
+    TextView fileSize;
 
     ActivityResultLauncher<Intent> _launcherSelectAudioFile =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -41,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        com.presenter.FileSelect fileSelect = new com.presenter.FileSelect();
+        fileSelect = new com.presenter.FileSelect();
         setContentView(R.layout.activity_main);
         Button ButtonFileSelect = findViewById(R.id.button_select_file);
         Button buttonStartEval = findViewById(R.id.button_start);
-        TextView fileName = findViewById(R.id.file_name);
-        TextView fileSize = findViewById(R.id.file_size);
+        fileName = findViewById(R.id.file_name);
+        fileSize = findViewById(R.id.file_size);
         fileName.setText("未選択");
         fileSize.setText("未選択");
         MainActivity activity = this;
@@ -61,11 +64,28 @@ public class MainActivity extends AppCompatActivity {
         ButtonFileSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fileSelect.changeFile(fileSelect());
-                fileName.setText(String.valueOf(fileSelect.getFileName()));
-                fileSize.setText(String.valueOf(fileSelect.getFileSize()));
+                getUri = fileSelect();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (getUri != null) {
+            fileSelect.changeFile(getUri, this);
+
+            String fileSizeString;
+            long fileSizeValue = fileSelect.getFileSize();
+            if (fileSizeValue <= 1000)
+                fileSizeString = fileSizeValue + " Byte";
+            else if (fileSizeValue <= 1000000)
+                fileSizeString = String.format("%.2f KB", fileSizeValue / 1000.0);
+            else
+                fileSizeString = String.format("%.2f MB", fileSizeValue / 1000000.0);
+            fileName.setText(String.valueOf(fileSelect.getFileName()));
+            fileSize.setText(fileSizeString);
+        }
     }
 
     public void transitionDisplayResult(EvaluationValues val) {
