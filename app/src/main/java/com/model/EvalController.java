@@ -139,7 +139,6 @@ public class EvalController {
 
         // データ領域までストリームを飛ばす
         byte[] bytes = new byte[4];
-        this.audioStream.read(bytes, 0, 4);
         // "data"まで飛ばす
         while((bytes[3] = (byte) this.audioStream.read()) != -1){
             if(bytes[0] == 0x64 && bytes[1] == 0x61
