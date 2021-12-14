@@ -3,10 +3,10 @@ package com.model;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.ByteBuffer;
 
 import android.content.Context;
+import android.net.Uri;
 
 public class EvalController {
     // 評価対象のファイルストリーム
@@ -23,7 +23,7 @@ public class EvalController {
     private int bitPerSample;
 
     // 渡されたパスのオーディオファイルを評価して、評価値を返す
-    public com.presenter.EvaluationValues evalController(Path audioFilePath, Context context) throws IOException {
+    public com.presenter.EvaluationValues evalController(Uri audioFilePath, Context context) throws IOException {
         com.presenter.EvaluationValues evaluationValues = new com.presenter.EvaluationValues();
 
         setAudioStream(audioFilePath, context);
@@ -31,7 +31,7 @@ public class EvalController {
 
         int bufferSize;
         double timePerData;
-        if(this.samplingRate == 44100){
+        if (this.samplingRate == 44100) {
             // サンプリングレートが44.1kHzなら0.093秒くらい分のデータ
             bufferSize = 4096 * (bitPerSample / 8);
             timePerData = (double)4096 / this.samplingRate;
@@ -102,7 +102,7 @@ public class EvalController {
         }else if((evaluationValues.speakingSpeed <= 60 && speakingSpeedEvalDirection == evalResult.small) ||
                 evaluationValues.speakingInterval <= 60){
             evaluationValues.totalText = "退屈";
-        }else{
+        } else {
             evaluationValues.totalText = "聞きやすい";
         }
 
@@ -110,10 +110,12 @@ public class EvalController {
 
         return evaluationValues;
     }
+
     // 自クラスにファイルストリームをセットする
-    private void setAudioStream(Path audioFilePath, Context context) throws FileNotFoundException {
+    private void setAudioStream(Uri audioFilePath, Context context) throws FileNotFoundException {
         this.audioStream = context.openFileInput(audioFilePath.toString());
     }
+
     // ファイルからデータを取り出す際の前処理
     private void preProcess() throws IOException {
         final int readHeaderSize = 36;
