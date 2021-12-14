@@ -2,18 +2,41 @@ package com.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.R;
 import com.presenter.EvaluationValues;
 import com.presenter.Evaluator;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
+    Uri getUri;
+    ActivityResultLauncher<Intent> _launcherSelectAudioFile =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent resultData = result.getData();
+                        if (resultData != null) {
+                            Uri uri = resultData.getData();
+                            if (uri != null) {
+                                getUri = uri;
+                            }
+                        }
+                    }
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +52,7 @@ public class MainActivity extends Activity {
         buttonStartEval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                com.presenter.Evaluator evaluator = new Evaluator(activity);
+                com.presenter.Evaluator evaluator = new Evaluator(activity, fileSelect);
                 evaluator.startEvaluate();
             }
         });
@@ -37,14 +60,33 @@ public class MainActivity extends Activity {
         ButtonFileSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fileSelect.changeFile(fileSelect());
                 fileName.setText(String.valueOf(fileSelect.getFileName()));
                 fileSize.setText(String.valueOf(fileSelect.getFileSize()));
             }
         });
     }
 
-    public void TransitionDisplayResult(EvaluationValues val) {
+    public void transitionDisplayResult(EvaluationValues val) {
         Intent intent = new Intent(getApplication(), ResultDisplay.class);
         startActivity(intent);
+    }
+
+    private void openFile() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("audio/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        Intent chooserIntent = Intent.createChooser(intent, "音声ファイルの選択");
+        _launcherSelectAudioFile.launch(chooserIntent);
+
+    }
+
+    public Uri fileSelect() {
+        this.onPause();
+        openFile();
+        if (getUri == null) System.out.println("ほげほげほげほげほげ");
+        this.onResume();
+        return getUri;
     }
 }
