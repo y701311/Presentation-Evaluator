@@ -1,7 +1,5 @@
 package com.presenter;
 
-import static java.lang.System.exit;
-
 import android.content.Context;
 import android.net.Uri;
 
@@ -28,7 +26,6 @@ public class Evaluator {
         try {
             value = evalController.evalController(audioFilePath, (Context) activity);
         } catch (IOException e) {
-            exit(1);
             e.printStackTrace();
         }
         resultDisplay.display(value);

@@ -21,6 +21,7 @@ import com.presenter.Evaluator;
 
 public class MainActivity extends AppCompatActivity {
     Uri getUri;
+
     ActivityResultLauncher<Intent> _launcherSelectAudioFile =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -79,14 +80,10 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
         Intent chooserIntent = Intent.createChooser(intent, "音声ファイルの選択");
         _launcherSelectAudioFile.launch(chooserIntent);
-
     }
 
     public Uri fileSelect() {
-        this.onPause();
         openFile();
-        if (getUri == null) System.out.println("ほげほげほげほげほげ");
-        this.onResume();
         return getUri;
     }
 }
