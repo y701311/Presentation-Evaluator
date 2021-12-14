@@ -2,7 +2,7 @@ package com.presenter;
 
 import android.content.res.AssetManager;
 
-import com.main.MainActivity;
+import com.view.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,13 +11,13 @@ import java.io.InputStreamReader;
 
 public class Help {
     private final MainActivity activity;
-    private final com.view.HelpOpen helpOpen;
+    private final com.view.Help help;
     private String helpText;
 
     public Help(MainActivity activity) {
         this.activity = activity;
         helpText = "";
-        helpOpen = new com.view.HelpOpen();
+        help = new com.view.Help();
         setHelpText();
     }
 
@@ -26,7 +26,7 @@ public class Help {
     }
 
     public void displayHelp() {
-        helpOpen.displayHelpText(helpText);
+        //TODO    help.displayHelpText(helpText);
     }
 
     private void setHelpText() {

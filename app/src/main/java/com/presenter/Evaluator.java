@@ -2,8 +2,8 @@ package com.presenter;
 
 import android.content.Context;
 
-import com.main.MainActivity;
 import com.model.EvalController;
+import com.view.MainActivity;
 
 import java.nio.file.Path;
 
@@ -21,7 +21,7 @@ public class Evaluator {
         EvalController evalController = new EvalController();
         Path audioFilePath = fileSelect.getFilePath();
 
-        //value = evalController.evalController(audioFilePath, (Context) activity);
+        //value = evalController.evalController(audioFilePath, (Context)activity);
         resultDisplay.display(value);
     }
 
