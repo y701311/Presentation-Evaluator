@@ -1,9 +1,11 @@
 package com.model;
 
-abstract class Evaluator {
-    private double[] evalValue;
+import java.util.ArrayList;
 
-    abstract void calculation(/*TODO audioData*/);
+abstract class Evaluator {
+    private ArrayList<Double> evalValue;
+
+    abstract void calculation(double[] audioData);
 
     abstract double returnResult();
 }
