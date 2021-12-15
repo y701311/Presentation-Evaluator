@@ -1,7 +1,9 @@
 package com.view;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,16 +16,22 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.R;
 import com.presenter.EvaluationValues;
 import com.presenter.Evaluator;
 
 public class MainActivity extends AppCompatActivity {
-    Uri getUri;
-    com.presenter.FileSelect fileSelect;
-    TextView fileName;
-    TextView fileSize;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+    private Uri getUri;
+    private com.presenter.FileSelect fileSelect;
+    private TextView fileName;
+    private TextView fileSize;
 
     ActivityResultLauncher<Intent> _launcherSelectAudioFile =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -44,6 +52,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //ファイル読み取り権限の取得
+        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    this,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+
         fileSelect = new com.presenter.FileSelect();
         setContentView(R.layout.activity_main);
         Button buttonFileSelect = findViewById(R.id.button_select_file);
