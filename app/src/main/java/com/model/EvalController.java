@@ -113,7 +113,9 @@ public class EvalController {
 
     // 自クラスにファイルストリームをセットする
     private void setAudioStream(Uri audioFilePath, Context context) throws FileNotFoundException {
-        this.audioStream = context.openFileInput(audioFilePath.toString());
+        this.audioStream = new FileInputStream(
+                context.getContentResolver().openFileDescriptor(audioFilePath, "r")
+                        .getFileDescriptor());
     }
 
     // ファイルからデータを取り出す際の前処理

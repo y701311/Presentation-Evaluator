@@ -5,4 +5,11 @@
     <string name="button_select_file">ファイルを選択</string>
     <string name="file_name_is">ファイル名：</string>
     <string name="file_size_is">ファイルサイズ：</string>
+    <string name="button_return_to_start">始めに戻る</string>
+    <string name="speaking_speed_is">話すスピード：</string>
+    <string name="speaking_interval_is">話の間：</string>
+    <string name="mean_less_words_is">意味のない語句：</string>
+    <string name="volume_is">声の大きさ：</string>
+    <string name="accents_is">抑揚：</string>
+    <string name="total_is">総評：</string>
 </resources>

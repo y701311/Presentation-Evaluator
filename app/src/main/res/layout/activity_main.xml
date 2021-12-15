@@ -27,8 +27,7 @@
         android:layout_width="144dp"
         android:layout_height="52dp"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/file_size_is"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/file_name"
         app:layout_constraintStart_toEndOf="@+id/file_size_is"
         app:layout_constraintTop_toTopOf="@+id/file_size_is" />
@@ -85,9 +84,20 @@
         android:layout_width="217dp"
         android:layout_height="47dp"
         android:layout_marginEnd="16dp"
+        android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/file_name_is"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/file_name_is" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/file_name_is"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

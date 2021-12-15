@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fileSelect = new com.presenter.FileSelect();
         setContentView(R.layout.activity_main);
-        Button ButtonFileSelect = findViewById(R.id.button_select_file);
+        Button buttonFileSelect = findViewById(R.id.button_select_file);
         Button buttonStartEval = findViewById(R.id.button_start);
         fileName = findViewById(R.id.file_name);
         fileSize = findViewById(R.id.file_size);
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ButtonFileSelect.setOnClickListener(new View.OnClickListener() {
+        buttonFileSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getUri = fileSelect();
@@ -89,8 +89,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void transitionDisplayResult(EvaluationValues val) {
-        Intent intent = new Intent(getApplication(), ResultDisplay.class);
+        Intent intent = new Intent(this, ResultDisplay.class);
         startActivity(intent);
+        intent.putExtra("EvaluationValues", val);
     }
 
     private void openFile() {
