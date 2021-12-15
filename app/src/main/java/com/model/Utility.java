@@ -26,7 +26,11 @@ public class Utility {
     // 人間の最小可聴音圧である20[μPa]を基準としたdBを返す
     static double getDecibel(double rms) {
         final double Base = 0.00002;
-        return 20 * Math.log10(rms / Base);
+        if(rms / Base <= 0){
+            return 0;
+        }else{
+            return 20 * Math.log10(rms / Base);
+        }
     }
 
     static double[] getFormant(double[] data) {
