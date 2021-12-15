@@ -1,10 +1,14 @@
 package com.view;
 
 import android.Manifest;
+import static android.graphics.Color.*;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +19,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -88,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onResume() {
         super.onResume();
@@ -104,6 +110,10 @@ public class MainActivity extends AppCompatActivity {
                 fileSizeString = String.format("%.2f MB", fileSizeValue / 1000000.0);
             fileName.setText(String.valueOf(fileSelect.getFileName()));
             fileSize.setText(fileSizeString);
+        }else{
+            Button buttonStartEval = findViewById(R.id.button_start);
+            buttonStartEval.setEnabled(false);
+            buttonStartEval.setBackgroundColor(Color.rgb(199, 206, 243));
         }
     }
 
