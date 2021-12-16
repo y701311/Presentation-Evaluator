@@ -91,11 +91,11 @@ public class EvalController {
 
         // 総合評価を決定
         double total = 0;
-        total += evaluationValues.accents / 20;
-        total += evaluationValues.meanLessWords / 20;
-        total += evaluationValues.speakingInterval / 20;
-        total += evaluationValues.speakingSpeed / 20;
-        total += evaluationValues.volume / 20;
+        total += evaluationValues.accents / 5;
+        total += evaluationValues.meanLessWords / 5;
+        total += evaluationValues.speakingInterval / 5;
+        total += evaluationValues.speakingSpeed / 5;
+        total += evaluationValues.volume / 5;
         evaluationValues.total = total;
 
         if(evaluationValues.accents <= 60 ||
