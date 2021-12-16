@@ -99,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (getUri != null) {
             fileSelect.changeFile(getUri, this);
+            Button buttonStartEval = findViewById(R.id.button_start);
+            buttonStartEval.setEnabled(true); // trueにしてボタンを押せるように
+            buttonStartEval.setBackgroundColor(Color.rgb(199, 206, 243)); // 色の変更(これは灰色)
 
             String fileSizeString;
             long fileSizeValue = fileSelect.getFileSize();

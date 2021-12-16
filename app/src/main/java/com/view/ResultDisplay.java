@@ -16,8 +16,7 @@ public class ResultDisplay extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resulteval);
-        //values = (EvaluationValues) getIntent().getSerializableExtra("EvaluationValues");
-        values = new EvaluationValues();
+        values = (EvaluationValues) getIntent().getSerializableExtra("EvaluationValues");
 
         Button buttonReturnToStart = findViewById(R.id.return_to_start);
         TextView speakingIntervalText = findViewById(R.id.speaking_interval);
