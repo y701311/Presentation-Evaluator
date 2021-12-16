@@ -18,6 +18,10 @@ public class ResultDisplay extends Activity {
         setContentView(R.layout.resulteval);
         values = (EvaluationValues) getIntent().getSerializableExtra("EvaluationValues");
 
+        if(values == null){
+            System.out.println("Viewのvaluesはnullだよ");
+        }
+
         Button buttonReturnToStart = findViewById(R.id.return_to_start);
         TextView speakingIntervalText = findViewById(R.id.speaking_interval);
         TextView volumeText = findViewById(R.id.volume);

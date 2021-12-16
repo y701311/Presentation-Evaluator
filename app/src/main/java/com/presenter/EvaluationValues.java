@@ -16,6 +16,7 @@ public class EvaluationValues implements Serializable {
     public double total;
     public String totalText;
 
+    /*
     public EvaluationValues() {
         speakingInterval = 0.8;
         speakingIntervalText = "aa";
@@ -30,4 +31,5 @@ public class EvaluationValues implements Serializable {
         total = 0.6;
         totalText = "ff";
     }
+     */
 }

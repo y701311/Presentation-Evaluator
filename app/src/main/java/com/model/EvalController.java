@@ -3,14 +3,16 @@ package com.model;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 
 public class EvalController {
     // 評価対象のファイルストリーム
-    private FileInputStream audioStream;
+    private InputStream audioStream;
     // ファイルの音声データ
     private double[] perUnitAudioData;
     // 音声データの残りのbyte数
@@ -108,14 +110,26 @@ public class EvalController {
 
         this.audioStream.close();
 
+        System.out.println("accent score : " + String.valueOf(evaluationValues.accents));
+        System.out.println(evaluationValues.accentsText);
+        System.out.println("meanless score : " + String.valueOf(evaluationValues.meanLessWords));
+        System.out.println(evaluationValues.meanLessWordsText);
+        System.out.println("interval score : " + String.valueOf(evaluationValues.speakingInterval));
+        System.out.println(evaluationValues.speakingIntervalText);
+        System.out.println("speed score : " + String.valueOf(evaluationValues.speakingSpeed));
+        System.out.println(evaluationValues.speakingSpeedText);
+        System.out.println("volume score : " + String.valueOf(evaluationValues.volume));
+        System.out.println(evaluationValues.volumeText);
+        System.out.println("total score : " + String.valueOf(evaluationValues.total));
+        System.out.println(evaluationValues.totalText);
+
         return evaluationValues;
     }
 
     // 自クラスにファイルストリームをセットする
     private void setAudioStream(Uri audioFilePath, Context context) throws FileNotFoundException {
-        this.audioStream = new FileInputStream(
-                context.getContentResolver().openFileDescriptor(audioFilePath, "r")
-                        .getFileDescriptor());
+        ContentResolver resolver = context.getApplicationContext().getContentResolver();
+        this.audioStream = resolver.openInputStream(audioFilePath);
     }
 
     // ファイルからデータを取り出す際の前処理

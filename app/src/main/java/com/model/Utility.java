@@ -38,7 +38,6 @@ public class Utility {
         DoubleFFT_1D fft_1D = new DoubleFFT_1D(len);
         List<Integer> formant = new ArrayList<>();
         int firstFormant = -1, secondFormant = -1;
-
         fft_1D.realForward(data);
 
         for (int i = 5; i < data.length / 2 - 5; ++i) {
@@ -63,6 +62,10 @@ public class Utility {
             if (firstFormant == -1) firstFormant = i;
             else if (secondFormant == -1) secondFormant = i;
         }
-        return new double[]{data[firstFormant], data[secondFormant]};
+        if(firstFormant == -1 || secondFormant == -1) {
+            return new double[]{-1, -1};
+        }else{
+            return new double[]{data[firstFormant], data[secondFormant]};
+        }
     }
 }
