@@ -23,5 +23,7 @@
             android:name=".view.ResultDisplay"
             android:exported="false"
             android:label="@string/button_select_file"></activity>
+
     </application>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>
