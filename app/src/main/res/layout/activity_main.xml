@@ -24,21 +24,35 @@
 
     <TextView
         android:id="@+id/file_size"
-        android:layout_width="144dp"
-        android:layout_height="52dp"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/file_name"
         app:layout_constraintStart_toEndOf="@+id/file_size_is"
         app:layout_constraintTop_toTopOf="@+id/file_size_is" />
 
     <TextView
+        android:id="@+id/file_name"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/file_size"
+        app:layout_constraintTop_toTopOf="@+id/file_name_is" />
+
+
+    <TextView
         android:id="@+id/file_size_is"
-        android:layout_width="206dp"
-        android:layout_height="41dp"
+        android:layout_width="195dp"
+        android:layout_height="50dp"
         android:layout_marginTop="32dp"
         android:text="@string/file_size_is"
         android:textColor="@color/black"
+        android:gravity="center_vertical"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/button_start"
         app:layout_constraintEnd_toEndOf="@+id/file_name_is"
@@ -65,12 +79,13 @@
 
     <TextView
         android:id="@+id/file_name_is"
-        android:layout_width="147dp"
-        android:layout_height="38dp"
+        android:layout_width="195dp"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="@string/file_name_is"
         android:textColor="@color/black"
+        android:gravity="center_vertical"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/button_start"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,15 +94,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.26" />
 
-    <TextView
-        android:id="@+id/file_name"
-        android:layout_width="217dp"
-        android:layout_height="47dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/file_name_is" />
+
 
     <TextView
         android:id="@+id/textView"
