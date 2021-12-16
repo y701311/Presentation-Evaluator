@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.R;
+import com.google.gson.Gson;
 import com.presenter.EvaluationValues;
 
 public class ResultDisplay extends Activity {
@@ -16,11 +17,9 @@ public class ResultDisplay extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resulteval);
-        values = (EvaluationValues) getIntent().getSerializableExtra("EvaluationValues");
-
-        if(values == null){
-            System.out.println("Viewのvaluesはnullだよ");
-        }
+        Gson gson = new Gson();
+        String tmpValues = getIntent().getStringExtra("EvaluationValues");
+        values = gson.fromJson(tmpValues, EvaluationValues.class);
 
         Button buttonReturnToStart = findViewById(R.id.return_to_start);
         TextView speakingIntervalText = findViewById(R.id.speaking_interval);
@@ -60,15 +59,15 @@ public class ResultDisplay extends Activity {
     }
 
     private String toStarString(double val) {
-        if (val <= 0.1) {
+        if (val <= 10) {
             return "☆☆☆☆☆";
-        } else if (val <= 0.3) {
+        } else if (val <= 30) {
             return "★☆☆☆☆";
-        } else if (val <= 0.5) {
+        } else if (val <= 50) {
             return "★★☆☆☆";
-        } else if (val <= 0.7) {
+        } else if (val <= 70) {
             return "★★★☆☆";
-        } else if (val <= 0.9) {
+        } else if (val <= 90) {
             return "★★★★☆";
         } else {
             return "★★★★★";
