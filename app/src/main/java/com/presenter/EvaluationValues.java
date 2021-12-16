@@ -1,8 +1,6 @@
 package com.presenter;
 
-import java.io.Serializable;
-
-public class EvaluationValues implements Serializable {
+public class EvaluationValues {
     public double speakingInterval;
     public String speakingIntervalText;
     public double volume;
