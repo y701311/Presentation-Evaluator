@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             fileSelect.changeFile(getUri, this);
             Button buttonStartEval = findViewById(R.id.button_start);
             buttonStartEval.setEnabled(true); // trueにしてボタンを押せるように
-            buttonStartEval.setBackgroundColor(getResources().getColor(R.color.purple_500)); // 色の変更
+            buttonStartEval.setAlpha(1f); //ボタンを不透明に
             String fileSizeString;
             long fileSizeValue = fileSelect.getFileSize();
             if (fileSizeValue <= 1000)
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Button buttonStartEval = findViewById(R.id.button_start);
             buttonStartEval.setEnabled(false);
-            buttonStartEval.setBackgroundColor(Color.rgb(199, 206, 243));
+            buttonStartEval.setAlpha(0.3f); //ボタンを透明に
         }
     }
 
