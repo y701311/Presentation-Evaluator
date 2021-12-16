@@ -101,8 +101,7 @@ public class MainActivity extends AppCompatActivity {
             fileSelect.changeFile(getUri, this);
             Button buttonStartEval = findViewById(R.id.button_start);
             buttonStartEval.setEnabled(true); // trueにしてボタンを押せるように
-            buttonStartEval.setBackgroundColor(Color.rgb(199, 206, 243)); // 色の変更(これは灰色)
-
+            buttonStartEval.setBackgroundColor(getResources().getColor(R.color.purple_500)); // 色の変更
             String fileSizeString;
             long fileSizeValue = fileSelect.getFileSize();
             if (fileSizeValue <= 1000)
