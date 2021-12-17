@@ -51,15 +51,26 @@ public class EvalController {
         SpeakingSpeedEval speakingSpeedEval = new SpeakingSpeedEval(timePerData, samplingRate);
         VolumeEval volumeEval = new VolumeEval();
 
+        double d;
         // 評価実行
         while(this.restOfDataSize > 0){
             makePerUnitAudioData(bufferSize);
 
+            d = this.perUnitAudioData[0];
             accentsEval.calculation(this.perUnitAudioData);
-            meanLessWordsEval.calculation(this.perUnitAudioData);
+            if(d != this.perUnitAudioData[0]) System.out.println("aaa");
+            d = this.perUnitAudioData[0];
             speakingIntervalEval.calculation(this.perUnitAudioData);
-            speakingSpeedEval.calculation(this.perUnitAudioData);
+            if(d != this.perUnitAudioData[0]) System.out.println("caa");
+            d = this.perUnitAudioData[0];
             volumeEval.calculation(this.perUnitAudioData);
+            if(d != this.perUnitAudioData[0]) System.out.println("eaa");
+            d = this.perUnitAudioData[0];
+            speakingSpeedEval.calculation(this.perUnitAudioData);
+            if(d != this.perUnitAudioData[0]) System.out.println("daa");
+            d = this.perUnitAudioData[0];
+            meanLessWordsEval.calculation(this.perUnitAudioData);
+            if(d != this.perUnitAudioData[0]) System.out.println("baa");
         }
 
         // 評価結果の取得

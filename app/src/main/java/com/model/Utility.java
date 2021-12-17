@@ -1,9 +1,6 @@
 package com.model;
 
-import android.util.Log;
-
 import org.jtransforms.fft.DoubleFFT_1D;
-import org.jtransforms.fft.FloatFFT_1D;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +23,12 @@ public class Utility {
         return rms;
     }
 
+    // 人間の最小可聴音である20[μPa]を基準としたデシベルを返す
     static double getDecibel(double rms) {
-        final double Base = 0.1;
-        if (rms / Base <= 1) {
+        final double Base = 0.00002;
+        if(rms / Base <= 1){
             return 0;
-        } else {
+        }else{
             return 20 * Math.log10(rms / Base);
         }
     }

@@ -13,10 +13,10 @@ class AccentsEval extends Evaluator {
     @Override
     void calculation(double[] audioData) {
         double evalValue;
-        final double speakingDecibel = 30;
+        final double speakingDecibel = 20;
 
         evalValue = Utility.getDecibel(Utility.getRms(audioData));
-
+        System.out.println("Accents" + String.valueOf(evalValue));
         // 話していると判定したデータのみについて評価
         if(evalValue >= speakingDecibel) {
             this.evalValue.add(evalValue);
@@ -26,7 +26,7 @@ class AccentsEval extends Evaluator {
     @Override
     EvalResult returnResult() {
         EvalResult evalResult = new EvalResult();
-        final double diffRateMin = 3, diffRateMax = 10;
+        final double bestDiffRate = 2.5;
         double diffSum = 0, diffRate;
 
         // データと、その1つ前のデータとの差の平均値を算出
@@ -38,15 +38,12 @@ class AccentsEval extends Evaluator {
         }else{
             diffRate = 0;
         }
+        System.out.println("diffRate : " + String.valueOf(diffRate));
 
         // 点数化
-        if(diffRate >= diffRateMax){
-            evalResult.score = 100;
-        }else if(diffRate <= diffRateMin){
-            evalResult.score = 0;
-        }else{
-            evalResult.score = 100 * (diffRate - diffRateMin) / (diffRateMax - diffRateMin);
-        }
+        evalResult.score = 100 - 100 * Math.abs(diffRate - bestDiffRate) / bestDiffRate;
+        System.out.print("diff");
+        System.out.println(Math.abs(diffRate - bestDiffRate));
         if(evalResult.score < 0){
             evalResult.score = 0;
         }
