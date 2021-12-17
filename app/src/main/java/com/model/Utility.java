@@ -23,8 +23,9 @@ public class Utility {
         return rms;
     }
 
+    // 人間の最小可聴音である20[μPa]を基準としたデシベルを返す
     static double getDecibel(double rms) {
-        final double Base = 0.1;
+        final double Base = 0.00002;
         if(rms / Base <= 1){
             return 0;
         }else{
@@ -32,7 +33,7 @@ public class Utility {
         }
     }
 
-    static double[] getFormant(double[] data) {
+    static double[] getFormant(double[] data, int a) {
         int len = data.length;
         DoubleFFT_1D fft_1D = new DoubleFFT_1D(len);
         List<Integer> formant = new ArrayList<>();
