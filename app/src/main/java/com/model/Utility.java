@@ -2,7 +2,9 @@ package com.model;
 
 import org.jtransforms.fft.DoubleFFT_1D;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Utility {
 
@@ -34,40 +36,27 @@ public class Utility {
 
     static double[] getFormant(double[] d, int samplingRate) {
         double[] data = Arrays.copyOf(d, d.length);
-        int a = 0;
-        int len = data.length;
-        double[] powerSpector = new double[len / 2 + 1];
-        double[] ave = new double[len / 20];
-        DoubleFFT_1D fft_1D = new DoubleFFT_1D(len);
-        int firstFormant = -1, secondFormant = -1;
-
-        fft_1D.realForward(data);
-        int tmp;
-        if (len % 2 == 0) tmp = 0;
-        else {
-            tmp = 1;
-            powerSpector[0] = data[0];
+        new DoubleFFT_1D(data.length).realForward(data);
+        double[] power = new double[data.length / 2];
+        double power_avg = 0;
+        List<Integer> formant = new ArrayList<>();
+        for (int i = 0; i < power.length; ++i) {
+            double re = data[2 * i];
+            double im = data[2 * i + 1];
+            power[i] = Math.sqrt(re * re + im * im);
+            power_avg += power[i];
         }
-        for (; tmp < len / 2; tmp++)
-            powerSpector[tmp] = Math.sqrt(data[tmp] * data[tmp] + data[tmp + 1] * data[tmp + 1]);
+        power_avg /= power.length;
 
-        for (int i = 0; i < len / 20; ++i) {
-            for (int j = 0; j < 10; j++) ave[i] += powerSpector[i * 10 + j];
-            ave[i] /= 10;
-        }
-
-        int allAve = 0;
-        for (double t : ave) {
-            allAve += t;
-        }
-        allAve /= ave.length;
-
-        for (int i = 0; i < ave.length; ++i) {
-            if (ave[i] > allAve * 2.5) {
-                if (firstFormant == -1) firstFormant = (i + 1) * 10 - 5;
-                else if (secondFormant == -1) secondFormant = (i + 1) * 10 - 5;
+        for (int i = 0; i < power.length / 5; ++i)
+            if (power[i] > power_avg * 8) {
+                formant.add(i);
+                i += 75 / (samplingRate / power.length);
             }
-        }
-        return new double[]{firstFormant * ((samplingRate / 2.0) / len), secondFormant * ((samplingRate / 2.0) / len)};
+
+        if (formant.size() <= 1) return new double[]{-1, -1};
+        else return new double[]{
+                formant.get(0) * (samplingRate / power.length),
+                formant.get(1) * (samplingRate / power.length)};
     }
 }
