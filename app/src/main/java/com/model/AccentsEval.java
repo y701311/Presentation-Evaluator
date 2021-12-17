@@ -47,6 +47,9 @@ class AccentsEval extends Evaluator {
         }else{
             evalResult.score = 100 * (diffRate - diffRateMin) / (diffRateMax - diffRateMin);
         }
+        if(evalResult.score < 0){
+            evalResult.score = 0;
+        }
 
         if(0 <= evalResult.score && evalResult.score < 20){
             evalResult.text = "まだまだ足りない";
