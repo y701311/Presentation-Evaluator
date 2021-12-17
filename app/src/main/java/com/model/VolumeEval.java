@@ -35,7 +35,7 @@ class VolumeEval extends Evaluator {
         if(decibelMean >= bestVolume * 2){
             decibelMean = bestVolume * 2;
         }
-        evalResult.score = 100 - Math.abs(bestVolume - decibelMean);
+        evalResult.score = 100 - 100 * Math.abs(bestVolume - decibelMean) / bestVolume;
 
         if(decibelMean > bestVolume){
             evalResult.evalDirection = evalResult.large;
