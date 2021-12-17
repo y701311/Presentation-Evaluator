@@ -25,7 +25,7 @@ public class Utility {
 
     static double getDecibel(double rms) {
         final double Base = 0.1;
-        if(rms / Base <= 0){
+        if(rms / Base <= 1){
             return 0;
         }else{
             return 20 * Math.log10(rms / Base);
