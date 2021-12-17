@@ -14,7 +14,6 @@ class VolumeEval extends Evaluator {
     void calculation(double[] audioData) {
         double evalValue;
         evalValue = Utility.getDecibel(Utility.getRms(audioData));
-        System.out.println("Volume" + String.valueOf(evalValue));
         this.evalValue.add(evalValue);
     }
 
