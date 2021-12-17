@@ -22,7 +22,7 @@ class SpeakingIntervalEval extends Evaluator {
     @Override
     EvalResult returnResult() {
         EvalResult evalResult = new EvalResult();
-        final double base = 30;// ささやき声くらい
+        final double base = 1;
         int silentCount = 0;
         // 話していないとした割合
         double silentRate;
