@@ -1,6 +1,9 @@
 package com.model;
 
+import android.util.Log;
+
 import org.jtransforms.fft.DoubleFFT_1D;
+import org.jtransforms.fft.FloatFFT_1D;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,46 +28,49 @@ public class Utility {
 
     static double getDecibel(double rms) {
         final double Base = 0.1;
-        if(rms / Base <= 1){
+        if (rms / Base <= 1) {
             return 0;
-        }else{
+        } else {
             return 20 * Math.log10(rms / Base);
         }
     }
 
-    static double[] getFormant(double[] data) {
+    static double[] getFormant(double[] d, int samplingRate) {
+        double[] data = d;
+        int a = 0;
         int len = data.length;
+        double[] powerSpector = new double[len / 2 + 1];
+        double[] ave = new double[len / 20];
         DoubleFFT_1D fft_1D = new DoubleFFT_1D(len);
-        List<Integer> formant = new ArrayList<>();
         int firstFormant = -1, secondFormant = -1;
+
         fft_1D.realForward(data);
+        int tmp;
+        if (len % 2 == 0) tmp = 0;
+        else {
+            tmp = 1;
+            powerSpector[0] = data[0];
+        }
+        for (; tmp < len / 2; tmp++)
+            powerSpector[tmp] = Math.sqrt(data[tmp] * data[tmp] + data[tmp + 1] * data[tmp + 1]);
 
-        for (int i = 5; i < data.length / 2 - 5; ++i) {
-            if (data[i - 1] < data[i] && data[i] > data[i + 1]) {
-                formant.add(i);
+        for (int i = 0; i < len / 20; ++i) {
+            for (int j = 0; j < 10; j++) ave[i] += powerSpector[i * 10 + j];
+            ave[i] /= 10;
+        }
+
+        int allAve = 0;
+        for (double t : ave) {
+            allAve += t;
+        }
+        allAve /= ave.length;
+
+        for (int i = 0; i < ave.length; ++i) {
+            if (ave[i] > allAve * 2.5) {
+                if (firstFormant == -1) firstFormant = (i + 1) * 10 - 5;
+                else if (secondFormant == -1) secondFormant = (i + 1) * 10 - 5;
             }
         }
-        for (int i : formant) {
-            short checkFormant;
-
-            for (checkFormant = -5; checkFormant <= -2; ++checkFormant) {
-                if (data[i + checkFormant] > data[i + checkFormant + i]) break;
-            }
-
-            if (i + checkFormant != -2) continue;
-
-            for (checkFormant = 1; checkFormant <= 4; ++checkFormant) {
-                if (data[i + checkFormant] < data[i + checkFormant + 1]) break;
-            }
-
-            if (i + checkFormant != 4) continue;
-            if (firstFormant == -1) firstFormant = i;
-            else if (secondFormant == -1) secondFormant = i;
-        }
-        if(firstFormant == -1 || secondFormant == -1) {
-            return new double[]{-1, -1};
-        }else{
-            return new double[]{data[firstFormant], data[secondFormant]};
-        }
+        return new double[]{firstFormant * ((samplingRate / 2.0) / len), secondFormant * ((samplingRate / 2.0) / len)};
     }
 }
