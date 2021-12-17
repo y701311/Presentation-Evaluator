@@ -2,8 +2,7 @@ package com.model;
 
 import org.jtransforms.fft.DoubleFFT_1D;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class Utility {
 
@@ -34,7 +33,7 @@ public class Utility {
     }
 
     static double[] getFormant(double[] d, int samplingRate) {
-        double[] data = d;
+        double[] data = Arrays.copyOf(d, d.length);
         int a = 0;
         int len = data.length;
         double[] powerSpector = new double[len / 2 + 1];
