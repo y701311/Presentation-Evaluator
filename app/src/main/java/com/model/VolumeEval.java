@@ -45,26 +45,26 @@ class VolumeEval extends Evaluator {
 
         if(0 <= evalResult.score && evalResult.score < 20){
             if(decibelMean > bestVolume){
-                evalResult.text = "声が大きすぎる";
+                evalResult.text = "声が大きすぎるかも";
             }else{
-                evalResult.text = "声が小さすぎる";
+                evalResult.text = "声が小さすぎるかも";
             }
         }else if(20 <= evalResult.score && evalResult.score < 40){
             if(decibelMean > bestVolume){
-                evalResult.text = "声が大きい";
+                evalResult.text = "声の大きさをTPOに合わせよう";
             }else{
-                evalResult.text = "声が小さい";
+                evalResult.text = "口を大きく動かしてみよう";
             }
         }else if(40 <= evalResult.score && evalResult.score < 60){
             if(decibelMean > bestVolume){
-                evalResult.text = "ちょっと声が大きい";
+                evalResult.text = "すこし声が大きいかも";
             }else{
-                evalResult.text = "ちょっと声が小さい";
+                evalResult.text = "声を響かせることを意識してみよう";
             }
         }else if(60 <= evalResult.score && evalResult.score < 80){
-            evalResult.text = "いい感じ";
+            evalResult.text = "声の大きさを相手に合わせよう";
         }else if(80 <= evalResult.score && evalResult.score <= 100){
-            evalResult.text = "ばっちり！";
+            evalResult.text = "完璧！";
         }
 
         return evalResult;

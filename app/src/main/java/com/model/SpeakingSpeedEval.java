@@ -85,26 +85,26 @@ class SpeakingSpeedEval extends Evaluator {
 
         if(0 <= evalResult.score && evalResult.score < 20){
             if(charNumPerSec > bestCharNumPerSec){
-                evalResult.text = "早すぎ";
+                evalResult.text = "話すスピードが速すぎるかも";
             }else{
-                evalResult.text = "遅すぎ";
+                evalResult.text = "話すスピードが遅すぎるかも";
             }
         }else if(20 <= evalResult.score && evalResult.score < 40){
             if(charNumPerSec > bestCharNumPerSec){
-                evalResult.text = "早い";
+                evalResult.text = "落ち着いて話してみよう";
             }else{
-                evalResult.text = "遅い";
+                evalResult.text = "すらすら話すことを意識しよう";
             }
         }else if(40 <= evalResult.score && evalResult.score < 60){
             if(charNumPerSec > bestCharNumPerSec){
-                evalResult.text = "ちょっと早い";
+                evalResult.text = "話すスピードがすこし速いかも";
             }else{
-                evalResult.text = "ちょっと遅い";
+                evalResult.text = "話すスピードがすこし遅いかも";
             }
         }else if(60 <= evalResult.score && evalResult.score < 80){
-            evalResult.text = "いい感じ";
+            evalResult.text = "話のテンポを意識しよう";
         }else if(80 <= evalResult.score && evalResult.score <= 100){
-            evalResult.text = "ばっちり！";
+            evalResult.text = "完璧！";
         }
 
         return evalResult;

@@ -102,12 +102,12 @@ public class EvalController {
 
         if(evaluationValues.accents <= 60 ||
                 (evaluationValues.speakingSpeed <= 60 && speakingSpeedEvalDirection == evalResult.large)){
-            evaluationValues.totalText = "聞き取りづらい";
+            evaluationValues.totalText = "聞き取りづらく、理解が追いつかないかも";
         }else if((evaluationValues.speakingSpeed <= 60 && speakingSpeedEvalDirection == evalResult.small) ||
                 evaluationValues.speakingInterval <= 60){
-            evaluationValues.totalText = "退屈";
+            evaluationValues.totalText = "退屈に感じてしまう人が多いかも";
         } else {
-            evaluationValues.totalText = "聞きやすい";
+            evaluationValues.totalText = "聞き取りやすく、内容が伝わりやすいかも";
         }
 
         this.audioStream.close();

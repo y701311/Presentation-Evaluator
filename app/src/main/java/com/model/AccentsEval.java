@@ -52,15 +52,15 @@ class AccentsEval extends Evaluator {
         }
 
         if(0 <= evalResult.score && evalResult.score < 20){
-            evalResult.text = "まだまだ足りない";
+            evalResult.text = "メリハリを意識してみよう";
         }else if(20 <= evalResult.score && evalResult.score < 40){
-            evalResult.text = "ちょっと足りない";
+            evalResult.text = "大事な言葉を意識しよう";
         }else if(40 <= evalResult.score && evalResult.score < 60){
-            evalResult.text = "そこそこ";
+            evalResult.text = "表現を工夫してみよう";
         }else if(60 <= evalResult.score && evalResult.score < 80){
-            evalResult.text = "いい感じ";
+            evalResult.text = "正しい抑揚を意識してみよう";
         }else if(80 <= evalResult.score && evalResult.score <= 100){
-            evalResult.text = "ばっちり！";
+            evalResult.text = "完璧！";
         }
 
         return evalResult;
