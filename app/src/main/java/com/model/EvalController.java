@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -201,11 +203,9 @@ public class EvalController {
                 }
             } else if(this.bitPerSample == 16) {
                 for(int i = 0; i < audioDataSize; i++){
-                    bytes[0] = 0;
-                    bytes[1] = 0;
-                    bytes[2] = buffer[i*2 + 1];
-                    bytes[3] = buffer[i*2];
-                    audioData[i] = (double)(ByteBuffer.wrap(bytes).getInt() / (Math.pow(2, 16) - 1));
+                    short num = 0;
+                    num = (short) ((buffer[i*2 + 1] << 8) | buffer[i*2]);
+                    audioData[i] = num / (Math.pow(2, 15) - 1);
                 }
             } else if(this.bitPerSample == 24){
                 for(int i = 0; i < audioDataSize; i++){
