@@ -1,23 +1,25 @@
 package com.presenter;
 
-import android.content.res.AssetManager;
+import android.content.res.Resources;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.view.MainActivity;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
-public class Help {
+public class Help extends AppCompatActivity{
     private final MainActivity activity;
-    private final com.view.Help help;
-    private String helpText;
+    public String[] helpText = new String[5];
+    public ArrayList<String> helpList;
 
     public Help(MainActivity activity) {
         this.activity = activity;
-        helpText = "";
-        help = new com.view.Help();
+        for(int i=0;i<5;i++) {
+            helpText[i] = "";
+        }
         setHelpText();
     }
 
@@ -30,19 +32,29 @@ public class Help {
     }
 
     private void setHelpText() {
-        InputStream stream;
-        BufferedReader bufferedReader;
-        AssetManager assetManager;
+        InputStream stream = null;
+        BufferedReader bufferedReader = null;
+        int Line=0;
         try {
-            assetManager = activity.getResources().getAssets();
-            stream = assetManager.open("HelpText/HelpText.txt");
-            bufferedReader = new BufferedReader(new InputStreamReader(stream));
-            while (bufferedReader.ready()) {
-                helpText = helpText.concat(bufferedReader.readLine());
+            try {
+                // assetsフォルダ内の sample.txt をオープンする
+                Resources res = activity . getResources ();
+                stream = res.getAssets().open("HelpText/HelpText.txt");
+                bufferedReader = new BufferedReader(new InputStreamReader(stream));
+
+                // １行ずつ読み込み、改行を付加する
+                String str;
+                while ((str = bufferedReader.readLine()) != null) {
+                    helpText[Line] += str;
+                    Line++;
+                }
+            } finally {
+                if (stream != null) stream.close();
+                if (bufferedReader != null) bufferedReader.close();
             }
-            stream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e){
+            // エラー発生時の処理
         }
+
     }
 }
