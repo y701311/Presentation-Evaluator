@@ -5,6 +5,7 @@ import java.util.ArrayList;
 class SpeakingSpeedEval extends Evaluator {
     private ArrayList<Boolean> evalValue;
     private double timePerData;
+    private int samplingRate;
     // 母音の数
     private final int vowelNum = 5;
     // 考えるフォルマントの数
@@ -26,14 +27,15 @@ class SpeakingSpeedEval extends Evaluator {
             {780, 1600},
     };
 
-    SpeakingSpeedEval(double timePerData) {
+    SpeakingSpeedEval(double timePerData, int samplingRate) {
         this.evalValue = new ArrayList<Boolean>();
         this.timePerData = timePerData;
+        this.samplingRate = samplingRate;
     }
 
     @Override
     void calculation(double[] audioData) {
-        double[] formant = Utility.getFormant(audioData);
+        double[] formant = Utility.getFormant(audioData, this.samplingRate);
 
         // a,i,u,e,oの5つに対して、1つでもフォルマントが合致したら話していると判定
         int matchVowel = 0;

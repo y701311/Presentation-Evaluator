@@ -5,6 +5,7 @@ import java.util.ArrayList;
 class MeanLessWordsEval extends Evaluator {
     private ArrayList<String> evalValue;
     private double timePerData;
+    private int samplingRate;
     // 母音の数
     private final int vowelNum = 5;
     private final String[] vowels = {
@@ -34,14 +35,15 @@ class MeanLessWordsEval extends Evaluator {
             {780, 1600},
     };
 
-    MeanLessWordsEval(double timePerData) {
+    MeanLessWordsEval(double timePerData, int samplingRate) {
         this.evalValue = new ArrayList<String>();
         this.timePerData = timePerData;
+        this.samplingRate = samplingRate;
     }
 
     @Override
     void calculation(double[] audioData) {
-        double[] formant = Utility.getFormant(audioData);
+        double[] formant = Utility.getFormant(audioData, this.samplingRate);
 
         // a,i,u,e,oの5つに対して、初めにマッチした音を話しているとする
         int matchVowelId = -1;

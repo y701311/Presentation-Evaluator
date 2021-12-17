@@ -46,9 +46,9 @@ public class EvalController {
 
         // 各評価項目のインスタンス生成
         AccentsEval accentsEval = new AccentsEval();
-        MeanLessWordsEval meanLessWordsEval = new MeanLessWordsEval(timePerData);
+        MeanLessWordsEval meanLessWordsEval = new MeanLessWordsEval(timePerData, samplingRate);
         SpeakingIntervalEval speakingIntervalEval = new SpeakingIntervalEval();
-        SpeakingSpeedEval speakingSpeedEval = new SpeakingSpeedEval(timePerData);
+        SpeakingSpeedEval speakingSpeedEval = new SpeakingSpeedEval(timePerData, samplingRate);
         VolumeEval volumeEval = new VolumeEval();
 
         // 評価実行
