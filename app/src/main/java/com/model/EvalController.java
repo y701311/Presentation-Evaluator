@@ -56,21 +56,11 @@ public class EvalController {
         while(this.restOfDataSize > 0){
             makePerUnitAudioData(bufferSize);
 
-            d = this.perUnitAudioData[0];
             accentsEval.calculation(this.perUnitAudioData);
-            if(d != this.perUnitAudioData[0]) System.out.println("aaa");
-            d = this.perUnitAudioData[0];
             speakingIntervalEval.calculation(this.perUnitAudioData);
-            if(d != this.perUnitAudioData[0]) System.out.println("caa");
-            d = this.perUnitAudioData[0];
             volumeEval.calculation(this.perUnitAudioData);
-            if(d != this.perUnitAudioData[0]) System.out.println("eaa");
-            d = this.perUnitAudioData[0];
             speakingSpeedEval.calculation(this.perUnitAudioData);
-            if(d != this.perUnitAudioData[0]) System.out.println("daa");
-            d = this.perUnitAudioData[0];
             meanLessWordsEval.calculation(this.perUnitAudioData);
-            if(d != this.perUnitAudioData[0]) System.out.println("baa");
         }
 
         // 評価結果の取得
@@ -122,19 +112,6 @@ public class EvalController {
         }
 
         this.audioStream.close();
-
-        System.out.println("accent score : " + String.valueOf(evaluationValues.accents));
-        System.out.println(evaluationValues.accentsText);
-        System.out.println("meanless score : " + String.valueOf(evaluationValues.meanLessWords));
-        System.out.println(evaluationValues.meanLessWordsText);
-        System.out.println("interval score : " + String.valueOf(evaluationValues.speakingInterval));
-        System.out.println(evaluationValues.speakingIntervalText);
-        System.out.println("speed score : " + String.valueOf(evaluationValues.speakingSpeed));
-        System.out.println(evaluationValues.speakingSpeedText);
-        System.out.println("volume score : " + String.valueOf(evaluationValues.volume));
-        System.out.println(evaluationValues.volumeText);
-        System.out.println("total score : " + String.valueOf(evaluationValues.total));
-        System.out.println(evaluationValues.totalText);
 
         return evaluationValues;
     }

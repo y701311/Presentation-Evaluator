@@ -16,7 +16,7 @@ class AccentsEval extends Evaluator {
         final double speakingDecibel = 20;
 
         evalValue = Utility.getDecibel(Utility.getRms(audioData));
-        System.out.println("Accents" + String.valueOf(evalValue));
+
         // 話していると判定したデータのみについて評価
         if(evalValue >= speakingDecibel) {
             this.evalValue.add(evalValue);
@@ -38,12 +38,9 @@ class AccentsEval extends Evaluator {
         }else{
             diffRate = 0;
         }
-        System.out.println("diffRate : " + String.valueOf(diffRate));
 
         // 点数化
         evalResult.score = 100 - 100 * Math.abs(diffRate - bestDiffRate) / bestDiffRate;
-        System.out.print("diff");
-        System.out.println(Math.abs(diffRate - bestDiffRate));
         if(evalResult.score < 0){
             evalResult.score = 0;
         }

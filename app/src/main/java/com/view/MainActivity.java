@@ -5,9 +5,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +15,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -37,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView fileName;
     private TextView fileSize;
 
+    private MainActivity thisActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // 縦画面に固定する
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        thisActivity=this;
         //ファイル読み取り権限の取得
         int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -78,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 getUri = fileSelect();
             }
         });
+
     }
 
     ActivityResultLauncher<Intent> _launcherSelectAudioFile =
@@ -96,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onResume() {
         super.onResume();
@@ -120,6 +117,64 @@ public class MainActivity extends AppCompatActivity {
             buttonStartEval.setEnabled(false);
             buttonStartEval.setAlpha(0.3f); //ボタンを透明に
         }
+
+
+        TextView help_back = findViewById(R.id.help_back);
+        TextView help_text_1 = findViewById(R.id.help_text_1);
+        TextView help_text_2 = findViewById(R.id.help_text_2);
+        TextView help_text_3 = findViewById(R.id.help_text_3);
+        TextView help_text_4 = findViewById(R.id.help_text_4);
+        TextView help_text_5 = findViewById(R.id.help_text_5);
+        TextView help = findViewById(R.id.help);
+        Button help_button = findViewById(R.id.help_button);
+        Button help_close  = findViewById(R.id.help_close);
+        Button file_select = findViewById(R.id.button_select_file);
+        Button buttonFileSelect = findViewById(R.id.button_select_file);
+
+        help_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v){
+                com.presenter.Help presenter_help=new com.presenter.Help(thisActivity);
+                help.setAlpha(1f);
+                help_text_1.setAlpha(1f);
+                help_text_1.setText(presenter_help.helpText[0]);
+                help_text_2.setAlpha(1f);
+                help_text_2.setText(presenter_help.helpText[1]);
+                help_text_3.setAlpha(1f);
+                help_text_3.setText(presenter_help.helpText[2]);
+                help_text_4.setAlpha(1f);
+                help_text_4.setText(presenter_help.helpText[3]);
+                help_text_5.setAlpha(1f);
+                help_text_5.setText(presenter_help.helpText[4]);
+                help_back.setAlpha(1f);
+                help_button.setAlpha(0f);
+                buttonFileSelect.setAlpha(0f);
+                help_close.setAlpha(1f);
+                help_close.setEnabled(true);
+                file_select.setEnabled(false);
+
+            }
+        });
+
+        help_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                help_close.setEnabled(false);
+                file_select.setEnabled(true);
+                help.setAlpha(0f);
+                help_text_1.setAlpha(0f);
+                help_text_2.setAlpha(0f);
+                help_text_3.setAlpha(0f);
+                help_text_4.setAlpha(0f);
+                help_text_5.setAlpha(0f);
+                help_back.setAlpha(0f);
+                help_button.setAlpha(1f);
+                buttonFileSelect.setAlpha(1f);
+                help_close.setAlpha(0f);
+            }
+        });
+
+
     }
 
     private void openFile() {

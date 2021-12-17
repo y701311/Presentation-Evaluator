@@ -12,4 +12,17 @@
     <string name="volume_is">声の大きさ：</string>
     <string name="accents_is">抑揚：</string>
     <string name="total_is">総評：</string>
+    <string name="help_text">help me</string>
+    <string name="help_button">？</string>
+    <string name="help_close">×</string>
+    <string name="help_text_1">1</string>
+    <string name="help_text_2">2</string>
+    <string name="help_text_3">3</string>
+    <string name="help_text_4">4</string>
+    <string name="help_text_5">5</string>
+    <string name="help">ヘルプ</string>
+
+
+
+
 </resources>
