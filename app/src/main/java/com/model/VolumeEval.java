@@ -22,7 +22,7 @@ class VolumeEval extends Evaluator {
     EvalResult returnResult() {
         EvalResult evalResult = new EvalResult();
         double decibelMean = 0;
-        final double bestVolume = 50;
+        final double bestVolume = 60;
 
         // デシベルの平均値を算出
         for(double value : this.evalValue){
