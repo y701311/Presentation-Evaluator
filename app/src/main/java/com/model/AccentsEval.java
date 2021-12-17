@@ -33,7 +33,11 @@ class AccentsEval extends Evaluator {
         for(int i = 1; i < this.evalValue.size(); i++){
             diffSum += Math.abs(this.evalValue.get(i) - this.evalValue.get(i-1));
         }
-        diffRate = diffSum / this.evalValue.size();
+        if(this.evalValue.size() != 0) {
+            diffRate = diffSum / this.evalValue.size();
+        }else{
+            diffRate = 0;
+        }
 
         // 点数化
         if(diffRate >= diffRateMax){
