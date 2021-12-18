@@ -3,7 +3,7 @@ package com.model;
 import java.util.ArrayList;
 
 class SpeakingIntervalEval extends Evaluator {
-    private ArrayList<Double> evalValue;
+    private final ArrayList<Double> evalValue;
 
     SpeakingIntervalEval() {
         this.evalValue = new ArrayList<Double>();
@@ -22,11 +22,11 @@ class SpeakingIntervalEval extends Evaluator {
     @Override
     EvalResult returnResult() {
         EvalResult evalResult = new EvalResult();
-        final double base = 30;
+        final double base = 40;
         int silentCount = 0;
         // 話していないとした割合
         double silentRate;
-        final double bestSilentRate = 0.2;
+        final double bestSilentRate = 0.4;
 
         for(double value : this.evalValue){
             if(value <= base){
