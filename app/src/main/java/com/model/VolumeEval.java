@@ -40,7 +40,7 @@ class VolumeEval extends Evaluator {
         }
 
         // 点数化
-        evalResult.score = 100 - 50 * Math.abs(diffRate - bestDiffRate);
+        evalResult.score = 100 - 65 * Math.abs(diffRate - bestDiffRate);
         if (evalResult.score < 0) {
             evalResult.score = 0;
         }

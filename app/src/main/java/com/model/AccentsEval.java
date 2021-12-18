@@ -27,7 +27,7 @@ class AccentsEval extends Evaluator {
     @Override
     EvalResult returnResult() {
         EvalResult evalResult = new EvalResult();
-        final double bestDiffRate = 150;
+        final double bestDiffRate = 160;
         double diffSum = 0, diffRate;
 
         // データと、その1つ前のデータとの差の平均値を算出
@@ -41,7 +41,7 @@ class AccentsEval extends Evaluator {
         }
         // 点数化
         Log.d("debug", String.valueOf(diffRate));
-        evalResult.score = 100 - 5 * Math.abs(diffRate - bestDiffRate);
+        evalResult.score = 100 - 6.5 * Math.abs(diffRate - bestDiffRate);
         if (evalResult.score < 0) {
             evalResult.score = 0;
         }
