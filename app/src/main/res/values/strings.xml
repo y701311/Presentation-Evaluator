@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Presentation-Evaluator</string>
+    <string name="button_start">評価開始！</string>
+    <string name="text_select">ファイルを選択してください</string>
+    <string name="button_select_file">ファイルを選択</string>
+    <string name="file_name_is">ファイル名：</string>
+    <string name="file_size_is">ファイルサイズ：</string>
+    <string name="button_return_to_start">始めに戻る</string>
+    <string name="speaking_speed_is">話すスピード：</string>
+    <string name="speaking_interval_is">話の間：</string>
+    <string name="mean_less_words_is">意味のない語句：</string>
+    <string name="volume_is">声の大きさ：</string>
+    <string name="accents_is">抑揚：</string>
+    <string name="total_is">総評：</string>
+    <string name="help_text">help me</string>
+    <string name="help_button">？</string>
+    <string name="help_close">×</string>
+    <string name="help_text_1">1</string>
+    <string name="help_text_2">2</string>
+    <string name="help_text_3">3</string>
+    <string name="help_text_4">4</string>
+    <string name="help_text_5">5</string>
+    <string name="help">ヘルプ</string>
+
+
+
+
+</resources>
