@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -44,20 +46,21 @@ public class EvalController {
 
         // 各評価項目のインスタンス生成
         AccentsEval accentsEval = new AccentsEval();
-        MeanLessWordsEval meanLessWordsEval = new MeanLessWordsEval(timePerData);
+        MeanLessWordsEval meanLessWordsEval = new MeanLessWordsEval(timePerData, samplingRate);
         SpeakingIntervalEval speakingIntervalEval = new SpeakingIntervalEval();
-        SpeakingSpeedEval speakingSpeedEval = new SpeakingSpeedEval(timePerData);
+        SpeakingSpeedEval speakingSpeedEval = new SpeakingSpeedEval(timePerData, samplingRate);
         VolumeEval volumeEval = new VolumeEval();
 
+        double d;
         // 評価実行
         while(this.restOfDataSize > 0){
             makePerUnitAudioData(bufferSize);
 
             accentsEval.calculation(this.perUnitAudioData);
-            meanLessWordsEval.calculation(this.perUnitAudioData);
             speakingIntervalEval.calculation(this.perUnitAudioData);
-            speakingSpeedEval.calculation(this.perUnitAudioData);
             volumeEval.calculation(this.perUnitAudioData);
+            speakingSpeedEval.calculation(this.perUnitAudioData);
+            meanLessWordsEval.calculation(this.perUnitAudioData);
         }
 
         // 評価結果の取得
@@ -100,28 +103,15 @@ public class EvalController {
 
         if(evaluationValues.accents <= 60 ||
                 (evaluationValues.speakingSpeed <= 60 && speakingSpeedEvalDirection == evalResult.large)){
-            evaluationValues.totalText = "聞き取りづらい";
+            evaluationValues.totalText = "聞き取りづらく、理解が追いつかないかも";
         }else if((evaluationValues.speakingSpeed <= 60 && speakingSpeedEvalDirection == evalResult.small) ||
                 evaluationValues.speakingInterval <= 60){
-            evaluationValues.totalText = "退屈";
+            evaluationValues.totalText = "退屈に感じてしまう人が多いかも";
         } else {
-            evaluationValues.totalText = "聞きやすい";
+            evaluationValues.totalText = "聞き取りやすく、内容が伝わりやすいかも";
         }
 
         this.audioStream.close();
-
-        System.out.println("accent score : " + String.valueOf(evaluationValues.accents));
-        System.out.println(evaluationValues.accentsText);
-        System.out.println("meanless score : " + String.valueOf(evaluationValues.meanLessWords));
-        System.out.println(evaluationValues.meanLessWordsText);
-        System.out.println("interval score : " + String.valueOf(evaluationValues.speakingInterval));
-        System.out.println(evaluationValues.speakingIntervalText);
-        System.out.println("speed score : " + String.valueOf(evaluationValues.speakingSpeed));
-        System.out.println(evaluationValues.speakingSpeedText);
-        System.out.println("volume score : " + String.valueOf(evaluationValues.volume));
-        System.out.println(evaluationValues.volumeText);
-        System.out.println("total score : " + String.valueOf(evaluationValues.total));
-        System.out.println(evaluationValues.totalText);
 
         return evaluationValues;
     }
@@ -201,11 +191,9 @@ public class EvalController {
                 }
             } else if(this.bitPerSample == 16) {
                 for(int i = 0; i < audioDataSize; i++){
-                    bytes[0] = 0;
-                    bytes[1] = 0;
-                    bytes[2] = buffer[i*2 + 1];
-                    bytes[3] = buffer[i*2];
-                    audioData[i] = (double)(ByteBuffer.wrap(bytes).getInt() / (Math.pow(2, 16) - 1));
+                    short num = 0;
+                    num = (short) ((buffer[i*2 + 1] << 8) | buffer[i*2]);
+                    audioData[i] = num / (Math.pow(2, 15) - 1);
                 }
             } else if(this.bitPerSample == 24){
                 for(int i = 0; i < audioDataSize; i++){

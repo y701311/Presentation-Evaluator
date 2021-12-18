@@ -5,6 +5,7 @@ import java.util.ArrayList;
 class MeanLessWordsEval extends Evaluator {
     private ArrayList<String> evalValue;
     private double timePerData;
+    private int samplingRate;
     // 母音の数
     private final int vowelNum = 5;
     private final String[] vowels = {
@@ -34,14 +35,15 @@ class MeanLessWordsEval extends Evaluator {
             {780, 1600},
     };
 
-    MeanLessWordsEval(double timePerData) {
+    MeanLessWordsEval(double timePerData, int samplingRate) {
         this.evalValue = new ArrayList<String>();
         this.timePerData = timePerData;
+        this.samplingRate = samplingRate;
     }
 
     @Override
     void calculation(double[] audioData) {
-        double[] formant = Utility.getFormant(audioData);
+        double[] formant = Utility.getFormant(audioData, this.samplingRate);
 
         // a,i,u,e,oの5つに対して、初めにマッチした音を話しているとする
         int matchVowelId = -1;
@@ -98,15 +100,15 @@ class MeanLessWordsEval extends Evaluator {
         }
 
         if(0 <= evalResult.score && evalResult.score < 20){
-            evalResult.text = "多すぎ";
+            evalResult.text = "大事なところを覚えよう";
         }else if(20 <= evalResult.score && evalResult.score < 40){
-            evalResult.text = "多い";
+            evalResult.text = "文をよく読んでみよう";
         }else if(40 <= evalResult.score && evalResult.score < 60){
-            evalResult.text = "ちょっと多い";
+            evalResult.text = "口癖があるかも";
         }else if(60 <= evalResult.score && evalResult.score < 80){
-            evalResult.text = "いい感じ";
+            evalResult.text = "あと一歩";
         }else if(80 <= evalResult.score && evalResult.score <= 100){
-            evalResult.text = "ばっちり！";
+            evalResult.text = "完璧！";
         }
 
         return evalResult;

@@ -3,6 +3,7 @@ package com.model;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Utility {
@@ -23,49 +24,39 @@ public class Utility {
         return rms;
     }
 
-    // 人間の最小可聴音圧である20[μPa]を基準としたdBを返す
+    // 人間の最小可聴音である20[μPa]を基準としたデシベルを返す
     static double getDecibel(double rms) {
         final double Base = 0.00002;
-        if(rms / Base <= 0){
+        if(rms / Base <= 1){
             return 0;
         }else{
             return 20 * Math.log10(rms / Base);
         }
     }
 
-    static double[] getFormant(double[] data) {
-        int len = data.length;
-        DoubleFFT_1D fft_1D = new DoubleFFT_1D(len);
+    static double[] getFormant(double[] d, int samplingRate) {
+        double[] data = Arrays.copyOf(d, d.length);
+        new DoubleFFT_1D(data.length).realForward(data);
+        double[] power = new double[data.length / 2];
+        double power_avg = 0;
         List<Integer> formant = new ArrayList<>();
-        int firstFormant = -1, secondFormant = -1;
-        fft_1D.realForward(data);
+        for (int i = 0; i < power.length; ++i) {
+            double re = data[2 * i];
+            double im = data[2 * i + 1];
+            power[i] = Math.sqrt(re * re + im * im);
+            power_avg += power[i];
+        }
+        power_avg /= power.length;
 
-        for (int i = 5; i < data.length / 2 - 5; ++i) {
-            if (data[i - 1] < data[i] && data[i] > data[i + 1]) {
+        for (int i = 0; i < power.length / 5; ++i)
+            if (power[i] > power_avg * 8) {
                 formant.add(i);
-            }
-        }
-        for (int i : formant) {
-            short checkFormant;
-
-            for (checkFormant = -5; checkFormant <= -2; ++checkFormant) {
-                if (data[i + checkFormant] > data[i + checkFormant + i]) break;
+                i += 75 / (samplingRate / power.length);
             }
 
-            if (i + checkFormant != -2) continue;
-
-            for (checkFormant = 1; checkFormant <= 4; ++checkFormant) {
-                if (data[i + checkFormant] < data[i + checkFormant + 1]) break;
-            }
-
-            if (i + checkFormant != 4) continue;
-            if (firstFormant == -1) firstFormant = i;
-            else if (secondFormant == -1) secondFormant = i;
-        }
-        if(firstFormant == -1 || secondFormant == -1) {
-            return new double[]{-1, -1};
-        }else{
-            return new double[]{data[firstFormant], data[secondFormant]};
-        }
+        if (formant.size() <= 1) return new double[]{-1, -1};
+        else return new double[]{
+                formant.get(0) * (samplingRate / power.length),
+                formant.get(1) * (samplingRate / power.length)};
     }
 }

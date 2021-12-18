@@ -22,7 +22,7 @@ class SpeakingIntervalEval extends Evaluator {
     @Override
     EvalResult returnResult() {
         EvalResult evalResult = new EvalResult();
-        final double base = 30;// ささやき声くらい
+        final double base = 30;
         int silentCount = 0;
         // 話していないとした割合
         double silentRate;
@@ -45,26 +45,26 @@ class SpeakingIntervalEval extends Evaluator {
 
         if(0 <= evalResult.score && evalResult.score < 20){
             if(silentRate > bestSilentRate){
-                evalResult.text = "長すぎ";
+                evalResult.text = "間が長すぎるかも";
             }else{
-                evalResult.text = "短すぎ";
+                evalResult.text = "間を意識してみよう";
             }
         }else if(20 <= evalResult.score && evalResult.score < 40){
             if(silentRate > bestSilentRate){
-                evalResult.text = "長い";
+                evalResult.text = "間を短くしてみよう";
             }else{
-                evalResult.text = "短い";
+                evalResult.text = "落ち着いて話してみよう";
             }
         }else if(40 <= evalResult.score && evalResult.score < 60){
             if(silentRate > bestSilentRate){
-                evalResult.text = "ちょっと長い";
+                evalResult.text = "すこし間が長いかも";
             }else{
-                evalResult.text = "ちょっと短い";
+                evalResult.text = "すこし間が短いかも";
             }
         }else if(60 <= evalResult.score && evalResult.score < 80){
-            evalResult.text = "いい感じ";
+            evalResult.text = "緩急をつけてみよう";
         }else if(80 <= evalResult.score && evalResult.score <= 100){
-            evalResult.text = "ばっちり！";
+            evalResult.text = "完璧！";
         }
 
         return evalResult;

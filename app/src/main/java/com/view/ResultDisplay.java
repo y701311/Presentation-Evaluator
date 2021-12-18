@@ -59,15 +59,13 @@ public class ResultDisplay extends Activity {
     }
 
     private String toStarString(double val) {
-        if (val <= 10) {
-            return "☆☆☆☆☆";
-        } else if (val <= 30) {
+        if (val <= 20) {
             return "★☆☆☆☆";
-        } else if (val <= 50) {
+        } else if (val <= 40) {
             return "★★☆☆☆";
-        } else if (val <= 70) {
+        } else if (val <= 60) {
             return "★★★☆☆";
-        } else if (val <= 90) {
+        } else if (val <= 80) {
             return "★★★★☆";
         } else {
             return "★★★★★";
